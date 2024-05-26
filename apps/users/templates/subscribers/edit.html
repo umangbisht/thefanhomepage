@@ -1,0 +1,66 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Edit Subscriber
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="{% url 'users.subscribers' %}">Subscribers</a></li>
+			<li class="active">	Edit Subscriber</li>
+		</ol>
+	</section>
+	<section class="content"> 
+		<form method="POST" autocomplete="off" action="{% url 'users.edit_subscriber' userDetail.id %}" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="row pad">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Account Name</label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.model_name|check_none_value}}" name="account_name" placeholder="Account Name" class="form-control" />
+							<!-- <span class="error-message help-inline">{{ errors.account_name }}</span> -->
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Email<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.email|check_none_value}}" name="email" placeholder="Email" class="form-control" />
+							<span class="error-message help-inline">{{ errors.email }}</span>
+						</div>
+					</div>
+					<div class="mws-form-row">
+						<div class="mws-form-message info">Please leave blank if you do not want to change password
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Passsword<span class="requireRed">  </span></label>
+						<div class="mws-form-item">
+							<input type="password" name="password" placeholder="Password"  class="form-control"/>
+							<span class="error-message help-inline">{{ errors.password }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Confirm Passsword<span class="requireRed">  </span></label>
+						<div class="mws-form-item">
+							<input type="password" name="confirm_password" placeholder="Confirm Password" class="form-control" />
+							<span class="error-message help-inline">{{ errors.confirm_password }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="mws-button-row">
+				<div class="input" >
+					<input type="submit" value="Submit" class="btn btn-success">
+						<a href="{% url 'users.edit_subscriber' userDetail.id %}" class="btn btn-primary"><i class=\"icon-refresh\"></i> Reset</a>
+						<a href="{% url 'users.subscribers' %}" class="btn btn-info"><i class=\"icon-refresh\"></i> Cancel</a>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+{% endblock %}

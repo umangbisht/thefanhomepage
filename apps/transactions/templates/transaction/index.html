@@ -1,0 +1,247 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Transactions
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li class="active">Transactions</li>
+		</ol>
+	</section>
+	<section class="content">
+		 <form autocomplete="off" action="{% url 'transaction.listing' %}">
+			<div class="row">
+				<div class="col-md-2 col-sm-2">
+					<div class="form-group">
+					<input type="text" value="{{searchingVariables.model_name}}" name="model_name" class="form-control" placeholder="Model Name" />
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-2">
+					<div class="form-group">
+					<input type="text" value="{{searchingVariables.subscriber_name}}" name="subscriber_name" class="form-control" placeholder="Subscriber Name" />
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-2">
+					<div class="form-group">
+					<input type="text" value="{{searchingVariables.transaction_id}}" name="transaction_id" class="form-control" placeholder="Transaction ID" />
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-2">
+					<div class="form-group">
+					<input type="text" value="{{searchingVariables.started_at}}" name="started_at" class="form-control date-input" placeholder="Start Date" />
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-2">
+					<div class="form-group">
+					<input type="text" value="{{searchingVariables.ended_at}}" name="ended_at" class="form-control date-input" placeholder="End Date" />
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-2">
+					<div class="form-group">  
+						<select  name="transaction_type" class="form-control"  >
+							<option value="">Transaction Type</option>
+							<option value="subscription" {% if searchingVariables.transaction_type == "subscription" %}selected="selected"{% endif %}>Subscription</option>
+							<option value="tips" {% if searchingVariables.is_active == "tips" %}selected="selected"{% endif %}>Tips</option>
+						 </select>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<div class="form-group">
+					<button class="btn btn-primary" style="margin:0;"><i class='fa fa-search '></i> Search</button>
+					<a href="{% url 'transaction.listing' %}"  class="btn btn-primary" style="margin:0;"><i class='fa fa-refresh '></i> Reset</a>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-3 pull-right">
+					<div class="form-group  pull-right">
+						<a href="{% url 'export_transactions_xls' %}" class="btn btn-success btn-small align status_change" style="margin:0;">Export to Excel</a>
+					</div>
+				</div>
+			</div>
+		</form> 
+		<div class="box">
+			<div class="box-body table-responsive">
+				<table class="table table-hover">
+				
+					<thead>
+						<tr>
+							<th>
+								<a href="?page={{ page }}&order_by=model__model_name&direction={% if direction == 'ASC' and order_by == 'model__model_name' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Model Name</a>
+							</th>
+							<th>
+								<a href="?page={{ page }}&order_by=user__email&direction={% if direction == 'ASC' and order_by == 'user__email' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Subscriber Email</a>
+							</th>
+							<th>
+								<a href="?page={{ page }}&order_by=created_at&direction={% if direction == 'ASC' and order_by == 'created_at' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Transaction Date</a>
+							</th>
+							<th>
+								<a href="?page={{ page }}&order_by=transaction_type&direction={% if direction == 'ASC' and order_by == 'transaction_type' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Transaction Type</a>
+							</th>
+							<th>
+								<a href="?page={{ page }}&order_by=amount&direction={% if direction == 'ASC' and order_by == 'amount' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Amount</a>
+							</th>
+							<th>
+								<a href="?page={{ page }}&order_by=currency&direction={% if direction == 'ASC' and order_by == 'currency' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Currency</a>
+							</th>
+							<th>
+								<a href="?page={{ page }}&order_by=commission&direction={% if direction == 'ASC' and order_by == 'commission' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Net Income</a>
+							</th>
+							<th>
+								<a href="?page={{ page }}&order_by=status&direction={% if direction == 'ASC' and order_by == 'status' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Status</a>
+							</th>
+							<th>
+								<a href="?page={{ page }}&order_by=transaction_id&direction={% if direction == 'ASC' and order_by == 'transaction_id' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Transaction ID</a>
+							</th>
+							
+							<th>
+								Subscription Name
+							</th>
+							
+							<th>
+								Type
+							</th>
+							
+							<th>
+								Time
+							</th>
+							<th>
+								Action
+							</th>
+							
+							
+						</tr>
+					</thead>
+					<tbody>
+						{% if results %}
+							{% for result in results %}
+								<tr>
+									<td>
+										{{result.model.model_name|check_none_value}}<br />
+										{{result.model.email|check_none_value}}
+									</td>
+									<td>
+										{% if result.user.email != '' %}
+											{{result.user.email|check_none_value}}
+										{% else %}
+											{{result.tip_email|check_none_value}}
+										{% endif %}
+										
+									</td>
+
+									<td>
+										{{result.created_at|check_none_value|date:datetimeFormat}}
+									</td>
+									<td>
+										{{result.transaction_type|check_none_value}}
+									</td>
+
+									<td>
+										{{result.amount|check_none_value}} 
+									</td>
+									<td>
+										 {{result.currency|check_none_value}}
+									</td>
+
+									<td>
+										{{result.commission|check_none_value}} 
+									</td>
+
+									<td>
+										{% if result.status == 'success' %}
+											<span class="label label-success" >Success</span>
+										{% else %}
+											<span class="label label-danger" >Refund</span>
+										{% endif %}
+									</td>
+									<td>
+										{{result.transaction_id|check_none_value}} 
+									</td>
+									<td>
+										{% if result.model_subscription.social_account == 'private_feed' %}
+											Private Feed
+										{% else %}
+											{{result.model_subscription.social_account|check_none_value|title }} 
+										{% endif %}
+										
+									</td>
+									<td>
+										{% if result.user_subscription.plan_type == 'recurring' %}
+											Recurring
+										{% else %}
+											One Time
+										{% endif %}
+										
+									</td>
+									<td>
+										{% if result.user_subscription.plan_type == 'recurring' %}
+											{{result.user_subscription.offer_period_time|check_none_value}} {{result.user_subscription.offer_period_type|check_none_value}} 
+										{% endif %}
+									</td>
+									<td>
+										{% if result.status == 'success' %}
+											<a href="{% url 'refund-transaction' result.id %}" class="btn btn-danger mark_refund" title="Delete">
+												<span class="fa fa-eye-slash"></span>
+											</a>
+										{% endif %}
+										
+									</td>
+								</tr>
+							{% endfor %}
+						{% else %}
+							<tr>
+								<td colspan="5" style="text-align:center">Record not found.</td>
+							</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+			{% include "admin/paginations.html" %}
+		</div>
+	</section>
+</div>
+
+<script>
+	$(document).ready(function(){
+		$(document).on('click', '.status_change', function(e){
+			e.stopImmediatePropagation();
+			url = $(this).attr('href');
+			bootbox.confirm("Are you sure want to export to excel?",
+			function(result){
+				if(result){
+					window.location.replace(url);
+				}
+			});
+			e.preventDefault();
+		});
+		$(document).on('click', '.delete_any_item', function(e){
+			e.stopImmediatePropagation();
+			url = $(this).attr('href');
+			bootbox.confirm("Are you sure want to delete this ?",
+			function(result){
+				if(result){
+					window.location.replace(url);
+				}
+			});
+			e.preventDefault();
+		});
+		$(document).on('click', '.mark_refund', function(e){
+			e.stopImmediatePropagation();
+			url = $(this).attr('href');
+			bootbox.confirm("Are you sure want to mark refund this transaction ?",
+			function(result){
+				if(result){
+					window.location.replace(url);
+				}
+			});
+			e.preventDefault();
+		});
+		$('.date-input').datetimepicker({
+			format:'YYYY-MM-DD',
+		});
+	});
+</script>
+{% endblock %}
+

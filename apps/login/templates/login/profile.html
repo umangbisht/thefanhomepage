@@ -1,0 +1,108 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+<script>
+	function nospaces(t){
+  if(t.value.match(/\s/g)){
+    t.value=t.value.replace(/\s/g,'');
+  }
+}
+$(function() {
+    $( "#datepicker" ).datetimepicker({  format: 'YYYY-MM-DD',maxDate: new Date(),});
+  });
+ $(document).ready(function(){
+	
+$('#user_name').keypress(function (e) {
+    var allowedChars = new RegExp("^[a-zA-Z0-9\-\b]+$");
+    var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+    if (allowedChars.test(str)) {
+        return true;
+    }
+    e.preventDefault();
+    return false;
+}).keyup(function() {
+    // the addition, which whill check the value after a keyup (triggered by Ctrl+V)
+    // We take the same regex as for allowedChars, but we add ^ after the first bracket : it means "all character BUT these"
+    var forbiddenChars = new RegExp("[^a-zA-Z0-9\-\b]", 'g');
+    if (forbiddenChars.test($(this).val())) {
+        $(this).val($(this).val().replace(forbiddenChars, ''));
+    }
+});
+	
+});
+</script>
+  <!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<h1>
+				Edit Profile
+			</h1>
+			<ol class="breadcrumb">
+				<li><a href="{% url  'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+				<li class="active">Edit Profile</li>
+			</ol>
+		</section>
+		<!-- Main content -->
+		<section class="content">
+			<form method="POST" autocomplete="off" action="{% url 'login.profile_user' %}" enctype="multipart/form-data">	
+				{% csrf_token %}
+				<div class="row pad">
+					<div class="col-md-6">	
+						<div class="form-group">
+							<label class="mws-form-label">First Name<span class="requireRed"> *</span></label>
+							<div class="mws-form-item">
+								<input type="text" value="{{form.first_name}}"  name="first_name" placeholder="First Name" class="form-control" />
+
+								<span class="error-message help-inline">{{ errors.first_name }}</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Last Name<span class="requireRed">  </span></label>
+							<div class="mws-form-item">
+								<input type="text" value="{{form.last_name}}"  name="last_name" placeholder="Last Name" class="form-control" />
+
+								<span class="error-message help-inline">{{ errors.last_name }}</span>
+							</div>
+						</div>
+						
+					
+					
+					<div class="form-group">
+							<label class="mws-form-label">Username<span class="requireRed"> * </span></label>
+							<div class="mws-form-item">
+								<input type="text" value="{{form.username}}"  name="username" placeholder="Username" class="form-control" id="user_name" />
+								<span class="error-message help-inline">{{ errors.username }}</span>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="mws-form-label">Passsword<span class="requireRed"> </span></label>
+							<div class="mws-form-item">
+								<input type="password" name="password" placeholder="Password"  class="form-control"/>
+								<span class="error-message help-inline">{{ errors.password }}</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Confirm Passsword<span class="requireRed">  </span></label>
+							<div class="mws-form-item">
+								<input type="password" name="confirm_password" placeholder="Confirm Password" class="form-control" />
+								<span class="error-message help-inline">{{ errors.confirm_password }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="mws-button-row">
+					<div class="input" >
+						<input type="submit" value="Submit" class="btn btn-success">
+						<a href="" class="btn btn-primary"><i class=\"icon-refresh\"></i> Reset</a>
+						<a href="{% url 'dashboard.index' %}" class="btn btn-info"><i class=\"icon-refresh\"></i> Cancel</a>
+					</div>
+				</div>
+			</form>
+		</section>
+		<!-- /.content -->
+	</div>
+  <!-- /.content-wrapper -->
+  
+{% endblock %}

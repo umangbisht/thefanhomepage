@@ -1,0 +1,62 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Edit Account Details
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="{% url 'users.models' %}">Models</a></li>
+			<li class="active">	Edit Account Details</li>
+		</ol>
+	</section>
+	<section class="content"> 
+		<form method="POST" autocomplete="off" action="{% url 'users.edit_model_account_details' userDetail.id %}" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="row pad">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Account Name<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.model_name|check_none_value}}" name="account_name" placeholder="Account Name" class="form-control" />
+							<span class="error-message help-inline">{{ errors.account_name }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Email<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.email|check_none_value}}" name="email" placeholder="Email" class="form-control" />
+							<span class="error-message help-inline">{{ errors.email }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Phone Number<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.phone_number|check_none_value}}" name="phone_number" placeholder="Phone Number" class="form-control" />
+							<span class="error-message help-inline">{{ errors.phone_number }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Skype ID<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.skype_number|check_none_value}}" name="skype" placeholder="Skype ID" class="form-control" />
+							<span class="error-message help-inline">{{ errors.skype }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="mws-button-row">
+				<div class="input" >
+					<input type="submit" value="Submit" class="btn btn-success">
+						<a href="{% url 'users.edit_model_account_details' userDetail.id %}" class="btn btn-primary"><i class=\"icon-refresh\"></i> Reset</a>
+						<a href="{% url 'users.models' %}" class="btn btn-info"><i class=\"icon-refresh\"></i> Cancel</a>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+{% endblock %}

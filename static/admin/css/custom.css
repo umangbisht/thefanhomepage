@@ -1,0 +1,45 @@
+.requireRed{
+	color:red;
+}
+
+.error-message{
+	color:red;
+}
+.SumoSelect .select-all {
+	border-radius: 3px 3px 0 0;
+	position: relative;
+	border-bottom: 1px solid #DDD;
+	background-color: #FFF;
+	padding: 0;
+	padding-left: 35px;
+	cursor: pointer;
+	height: 38px;
+	line-height: 38px;
+}
+.inlineblick {
+    display: inline-block !important;
+}
+
+
+.form-group.data-options {
+	margin: 0;
+}
+.form-group.data-options .mws-form-label {
+	min-width: 120px;
+}
+.form-group.gender-group {
+	margin: 0 0 27px 0;
+}
+.mws-form-item.mb-030 {
+	margin: 0 0 12px;
+}
+
+.email-select .multiselect-container {
+	height: 320px;
+    overflow: auto;
+}
+
+.toast-container {	
+	top: 0;
+	bottom: unset !important;
+}

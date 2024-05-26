@@ -1,0 +1,162 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Edit Payout
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="{% url 'payout.listing' %}">Payouts</a></li>
+			<li class="active">	Edit Payout</li>
+		</ol>
+	</section>
+	<section class="content"> 
+		<form method="POST" autocomplete="off" action="{% url 'editpayout' payoutDetail.id %}" enctype="multipart/form-data" id="add_slider_form">
+			{% csrf_token %}
+			<div class="row pad">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="mws-form-label">Gross Revenue<span class="requireRed"> </span></label>
+                        <div class="mws-form-item">
+                            <input type="text" min="0" value="{{payoutDetail.gross_revenue|check_none_value}}" name="gross_revenue" id="gross_revenue" placeholder="Gross Revenue" class="form-control number" />
+                            <span class="error-message help-inline">{{ errors.gross_revenue }}</span>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="mws-form-label">Net Revenue<span class="requireRed"> </span></label>
+                        <div class="mws-form-item">
+                            <input type="text" min="0" value="{{payoutDetail.net_revenue|check_none_value}}" name="net_revenue" id="net_revenue" placeholder="Net Revenue" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.net_revenue }}</span>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="mws-form-label">Commission Amount<span class="requireRed"> </span></label>
+                        <div class="mws-form-item">
+                            <input type="text" min="0" value="{{payoutDetail.commission_amount|check_none_value}}" name="commission_amount" id="commission_amount" placeholder="Commission Amount" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.commission_amount }}</span>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="mws-form-label">Rebill Gross Revenue<span class="requireRed"> </span></label>
+                        <div class="mws-form-item">
+                            <input type="text" min="0" value="{{payoutDetail.rebill_gross_revenue|check_none_value}}" name="rebill_gross_revenue" id="rebill_gross_revenue" placeholder="Rebill Gross Revenue" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.rebill_gross_revenue }}</span>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="mws-form-label">Rebill Net Revenue<span class="requireRed"> </span></label>
+                        <div class="mws-form-item">
+                            <input type="text" min="0" value="{{payoutDetail.rebill_net_revenue|check_none_value}}" name="rebill_net_revenue" id="rebill_net_revenue" placeholder="Rebill Net Revenue" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.rebill_net_revenue }}</span>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="mws-form-label">Rebill Commission Amount<span class="requireRed"> </span></label>
+                        <div class="mws-form-item">
+                            <input type="text" min="0" value="{{payoutDetail.rebill_commission|check_none_value}}" name="rebill_commission" id="rebill_commission" placeholder="Rebill Commission Amount" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.rebill_commission }}</span>
+                        </div>
+                    </div>
+					
+                </div>
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="mws-form-label">Joins Gross Revenue<span class="requireRed"> </span></label>
+                        <div class="mws-form-item">
+                            <input type="text" min="0" value="{{payoutDetail.join_gross_revenue|check_none_value}}" name="join_gross_revenue" id="join_gross_revenue" placeholder="Joins Gross Revenue" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.join_gross_revenue }}</span>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="mws-form-label">Joins Net Revenue<span class="requireRed"> </span></label>
+                        <div class="mws-form-item">
+                            <input type="text" min="0" value="{{payoutDetail.join_net_revenue|check_none_value}}" name="join_net_revenue" id="join_net_revenue" placeholder="Joins Net Revenue" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.join_net_revenue }}</span>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="mws-form-label">Joins Commission Amount<span class="requireRed"> </span></label>
+                        <div class="mws-form-item">
+                            <input type="text" min="0" value="{{payoutDetail.join_commission|check_none_value}}" name="join_commission" id="join_commission" placeholder="Joins Commission Amount" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.join_commission }}</span>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="mws-form-label">Tip's Gross Revenue<span class="requireRed"> </span></label>
+                        <div class="mws-form-item">
+                            <input type="text" min="0" value="{{payoutDetail.tip_gross_revenue|check_none_value}}" name="tip_gross_revenue" id="tip_gross_revenue" placeholder="Tip's Gross Revenue" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.tip_gross_revenue }}</span>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="mws-form-label">Tip's Net Revenue<span class="requireRed"> </span></label>
+                        <div class="mws-form-item">
+                            <input type="text" min="0" value="{{payoutDetail.tip_net_revenue|check_none_value}}" name="tip_net_revenue" id="tip_net_revenue" placeholder="Tip's Net Revenue" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.tip_net_revenue }}</span>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="mws-form-label">Tip's Commission Amount<span class="requireRed"> </span></label>
+                        <div class="mws-form-item">
+                            <input type="text" min="0" value="{{payoutDetail.tip_commission|check_none_value}}" name="tip_commission" id="tip_commission" placeholder="Tip's Commission Amount" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.tip_commission }}</span>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="mws-form-label">Refund's Gross Revenue<span class="requireRed"> </span></label>
+                        <div class="mws-form-item">
+                            <input type="text" min="0" value="{{payoutDetail.refunds_gross_revenue|check_none_value}}" name="refunds_gross_revenue" id="refunds_gross_revenue" placeholder="Refund's Gross Revenue" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.refunds_gross_revenue }}</span>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="mws-form-label">Refund's Net Revenue<span class="requireRed"> </span></label>
+                        <div class="mws-form-item">
+                            <input type="text" min="0" value="{{payoutDetail.refunds_net_revenue|check_none_value}}" name="refunds_net_revenue" id="refunds_net_revenue" placeholder="Refund's Net Revenue" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.refunds_net_revenue }}</span>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="mws-form-label">Refund's Commission Amount<span class="requireRed"> </span></label>
+                        <div class="mws-form-item">
+                            <input type="text" min="0" value="{{payoutDetail.refunds_commission|check_none_value}}" name="refunds_commission" id="refunds_commission" placeholder="Refund's Commission Amount" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.refunds_commission }}</span>
+                        </div>
+                    </div>
+                </div>
+			</div>
+			<div class="mws-button-row">
+				<div class="input" >
+                    <input type="submit" value="Submit" class="btn btn-success">
+                    <a href="{% url 'editpayout' payoutDetail.id %}" class="btn btn-primary"><i class=\"icon-refresh\"></i> Reset</a>
+                    <a href="{% url 'payout.listing' %}" class="btn btn-info"><i class=\"icon-refresh\"></i> Cancel</a>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+<link rel="stylesheet" href="{%  static 'admin/css/jquery.fancybox.css' %}">
+<script src="{%  static 'admin/js/jquery.fancybox.js' %}"></script>
+<script>
+        $(function(){
+            $('.fancybox').fancybox();
+            $('.fancybox-buttons').fancybox({
+                openEffect  : 'none',
+                closeEffect : 'none',
+                prevEffect : 'none',
+                nextEffect : 'none',
+            });
+        });
+		
+		$('.number').keypress(function(event) {
+		  if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+			event.preventDefault();
+		  }
+		});
+</script>
+
+{% endblock %}

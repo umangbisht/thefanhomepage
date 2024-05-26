@@ -1,0 +1,120 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+           Edit Scheduled Newsletter
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="{% url 'newsletters.index' %}">Newsletter Templates</a></li>
+			<li><a href="{% url 'newsletters.scheduled_newsletter' %}">Scheduled Newsletters</a></li>
+			<li class="active">	Edit Scheduled Newsletter</li>
+		</ol>
+	</section>
+	<section class="content"> 
+		<form method="POST" autocomplete="off" action="{% url 'newsletters.editScheduledNewsletter' NewsletterDetail.id %}" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="row pad">
+				<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="mws-form-label">Scheduled Date and Time<span class="requireRed"> * </span></label>
+                        <div class="mws-form-item">
+							<input type="text" value="{{form.scheduled_date|date:'Y-m-d H:m:s'}}" name="scheduled_date" class="form-control date-input" placeholder="Scheduled Date" />
+                            <span class="error-message help-inline">{{ errors.scheduled_date }}</span>
+                        </div>
+                    </div>
+					<div class="form-group">
+						<label class="mws-form-label">Subject<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.subject}}" name="subject" placeholder="Subject Name" class="form-control" />
+							<span class="error-message help-inline">{{ errors.subject }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+							<label class="mws-form-label">Constants</label>
+							<div class="mws-form-item">
+									<select id="constants" empty="Select one" class="form-control small" name="constants">
+											{% if settings.NEWSLETTER_CONSTANTS %}
+											{% for result in settings.NEWSLETTER_CONSTANTS %}
+												<option value="{{result}}">{{result}}</option>
+											{% endfor %}
+											{% endif %}
+									</select>
+								<span class="error-message help-inline">{{ errors.constants }}</span>
+							</div>
+							<a onclick = "return InsertHTML()" href="javascript:void(0)" class="btn btn-success no-ajax pull-right"><i class="icon-white "></i>Insert Variable</a>
+					</div>
+					
+                    <div class="form-group">
+                            <label class="mws-form-label">Subscribers<span class="requireRed"> * </span></label>
+                            <div class="mws-form-item">
+								<div class="email-select">
+                                    <select id="email" class="form-control small selectOptionSubscribers" name="email" multiple>
+										{% if newsletSubscriber %}
+											{% for subscriber in newsletSubscriber %}
+											<option value="{{subscriber.email}}" {% if subscriber.email in scheduleSubscribers %} selected="selected" {% endif %}>{{subscriber.email}}</option>
+											{% endfor %}
+										{% endif %}
+									</select>          
+								</div>
+							</div>
+							<span class="error-message help-inline">{{ errors.email }}</span>  
+                    </div>
+
+					<div class="form-group">
+						<label class="mws-form-label">Email Body<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<textarea class="form-control body" name="body">{{form.body}}</textarea>
+							<span class="error-message help-inline">{{ errors.body }}</span>
+						</div>
+						<script>		
+							CKEDITOR.replace("body",
+							{
+								height: 300,
+								filebrowserImageWindowWidth : '640',
+								filebrowserImageWindowHeight : '480',
+								enterMode : CKEDITOR.ENTER_BR
+							});
+							function InsertHTML() {
+								var strUser = document.getElementById("constants").value;
+								if(strUser != ''){
+									var newStr = '{'+strUser+'}';
+									var oEditor = CKEDITOR.instances["body"] ;
+									oEditor.insertHtml(newStr) ;	
+								}
+							}
+                            $('.date-input').datetimepicker({
+                                format:'YYYY-MM-DD HH:mm:ss',
+								minDate: new Date()
+							});
+												
+							var dateval = $('.date-input').attr('value');
+							$('.date-input').val(dateval);
+							
+							$('.selectOptionSubscribers').multiselect({ 
+								numberDisplayed: 2,
+								includeSelectAllOption: true,
+								enableFiltering:true ,
+								nonSelectedText: 'Select Subscribers',
+								enableCaseInsensitiveFiltering: true, 
+							});
+						</script>
+					</div>
+				</div>
+			</div>
+			<div class="mws-button-row">
+				<div class="input" >
+					<input type="submit" value="Save" class="btn btn-primary">
+						<a href="{% url 'newsletters.sendScheduledNewsletter' NewsletterDetail.id %}" class="btn btn-danger"><i class=\"icon-refresh\"></i> Reset</a>
+						<a href="{% url 'newsletters.index' %}" class="btn btn-info"><i class=\"icon-refresh\"></i> Cancel</a>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+
+{% endblock %}

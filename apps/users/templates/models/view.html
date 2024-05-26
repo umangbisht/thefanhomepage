@@ -1,0 +1,731 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			View Model Detail
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			{% if form.is_deleted == 1 %}
+			<li><a href="{% url 'users.models' %}">Deleted Models</a></li>
+			<li class="active">View Deleted Model Detail</li>
+			{% else %}
+			<li><a href="{% url 'users.models' %}">Models</a></li>
+			<li class="active">View Model Detail</li>
+			{% endif %}
+		</ol>
+	</section>
+	<section class="content">
+		<div class="box box-warning ">
+			<div class="">
+				<!-- Basic info section start-->
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">BASIC INFORMATION</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Email:</label> {{form.email}} 
+						<div class="mws-form-item">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+				</div>
+				<!-- Personal Information section start-->
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">PERSONAL INFORMATION</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Fisrt Name:</label> {{form.first_name|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Previous First Name:</label> {{form.previous_first_name|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">DOB:</label> {{form.date_of_birth|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Country: </label> {{ countryName|check_none_value }}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Address Line 2:</label> {{form.address_line_2|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Postal Code: </label> {{form.postal_code|check_none_value}}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Last Name: </label> {{form.last_name|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Previous Last Name: </label> {{form.previous_last_name|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Gender:</label>
+						{% if form.gender is None or form.gender == 'male' %} Male {% else %} female {% endif %}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Address Line 1:</label> {{form.address_line_1|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">City:</label> {{form.city|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Skype For Call Verification: </label> {{form.skype_number|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Currency: </label> {{form.default_currency|check_none_value}}
+					</div>
+				</div>
+				<!-- Profile Information section start-->
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">PROFILE INFORMATION</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Enter Model Name:</label> {{form.model_name|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Images</label>
+						<div class="mws-form-item">
+							{% for img in selectedIamge %}
+							<img src="">
+							{% if img != "" %}
+							<a class="fancybox-buttons" data-fancybox-group="button" href="{{settings.MODEL_IMAGE_URL}}{{img}}">
+							<img height="100" width="100" src="{{settings.MODEL_IMAGE_URL}}{{img}}"/>
+							</a>
+							{% endif %}
+							{% endfor %}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Bio : </label> {{form.bio|check_none_value}}
+					</div>
+				</div>
+				<div class="col-md-6">
+				</div>
+				<!-- Links section start-->
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">LINKS</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Private Snapchat:</label> {{form.private_snapchat_link|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Public Snapchat:</label> {{form.public_snapchat_link|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Public Instagram:</label> {{form.public_instagram_link|check_none_value}}
+						<div class="mws-form-item">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Twitter:</label> {{form.twitter_link|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Youtube:</label> {{form.youtube_link|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Amazon Wishlist:</label> {{form.amazon_wishlist_link|check_none_value}}
+					</div>
+				</div>
+				<!-- Categories and stats section start-->
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">CATEGORIES AND VIDEO</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Categories</label>
+						<div class="mws-form-item">
+							{% for catName in selectedCategoriesName %}
+								{% if not forloop.last %}
+									{{catName}},
+								{% else %}
+									{{catName}}
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Youtube Video Url:</label> {{ form.youtube_video_url|check_none_value }}
+					</div>
+				</div>
+				<!-- stats section start-->
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">STATS</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Age:</label> {{form.age|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Height:</label> {{form.height|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Hair:</label> {{form.hair|check_none_value}}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">From:</label> {{form.from_date|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Weight:</label> {{form.weight|check_none_value}}
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Eyes:</label> {{form.eyes|check_none_value}}
+					</div>
+				</div>
+				<!-- subscription section start-->
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">SUBSCRIPTION OFFERS</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="col-md-12"> <div class="form-group data-options">
+							<label class="mws-form-label" style="font-size:18px;">Snapchat:</label>{% if subcriptionDataSanpchat.is_enabled == 1 %} Enabled{% else %} Disabled{% endif %}
+						</div>
+					</div>
+						{% if subcriptionDataSanpchat.is_enabled == 1 %}
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="mws-form-label">Username:</label> {{subcriptionDataSanpchat.username|check_none_value}}
+								</div>
+							</div>
+							{% for plan in planDataSnap %}
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="mws-form-label" style="font-size:16px;">Plan:</label> {{forloop.counter}}
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="mws-form-label">Offer Type:</label> {{plan.plan_type|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Offer Period:</label> {{plan.offer_period_time|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Offer Period Type:</label> {{plan.offer_period_type|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Price:</label> {{plan.price|check_none_value}}
+									</div>
+									<hr>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="mws-form-label">Currencey:</label> {{plan.currency|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Offer Name:</label> {{plan.offer_name|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Description:</label> {{plan.description|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Discount:</label>{% if plan.is_discount_enabled == 1%} Yes{% else %} No{%endif%}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Discount Amount:</label> {{plan.discount|check_none_value}}
+									</div>
+									<hr>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="mws-form-label">Permanent:</label>{% if plan.is_permanent_discount == 1 %} Yes{% else %} No{%endif%}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">From Discount Date:</label> {{plan.from_discount_date|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">To Discount Date:</label> {{plan.to_discount_date|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Apply To Rebill:</label>{% if plan.is_apply_to_rebills == 1 %} Yes{% else %} No{% endif %}
+									</div>
+									<hr>
+								</div>
+							{% endfor %}
+						{% endif %}
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="col-md-12"><div class="form-group data-options">
+							<label class="mws-form-label" style="font-size:18px;">Private Feed:</label>{% if subcriptionDataPrivateFeed.is_enabled == 1 %} Enabled{% else %} Disabled{% endif %}
+						</div></div>
+						{% if subcriptionDataPrivateFeed.is_enabled == 1 %}
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="mws-form-label">Username:</label> {{subcriptionDataPrivateFeed.username|check_none_value}}
+								</div>
+							</div>
+							{% for plan in planDataPrivate %}
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="mws-form-label" style="font-size:16px;">Plan:</label> {{forloop.counter}}
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="mws-form-label">Offer Type:</label> {{plan.plan_type|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Offer Period:</label> {{plan.offer_period_time|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Offer Period Type:</label> {{plan.offer_period_type|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Price:</label> {{plan.price|check_none_value}}
+									</div>
+									<hr>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="mws-form-label">Currencey:</label> {{plan.currency|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Offer Name:</label> {{plan.offer_name|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Description:</label> {{plan.description|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Discount:</label>{% if plan.is_discount_enabled == 1 %} Yes{% else %} No{% endif %}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Discount Amount:</label> {{plan.discount|check_none_value}}
+									</div>
+									<hr>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="mws-form-label">Permanent:</label>{% if plan.is_permanent_discount == 1 %} Yes{% else %} No{% endif %}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">From Discount Date:</label> {{plan.from_discount_date|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">To Discount Date:</label> {{plan.to_discount_date|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Apply To Rebill:</label>{% if plan.is_apply_to_rebills == 1%} Yes{% else %} No{% endif %}<br>
+									</div>
+									<hr>
+								</div>
+							{% endfor %}
+						{% endif %}
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="col-md-12"><div class="form-group data-options">
+							<label class="mws-form-label" style="font-size:18px;">Whatsapp:</label>{% if subcriptionDataWhatsapp.is_enabled == 1%} Enabled{% else %} Disabled{% endif %}
+						</div></div>
+						{% if subcriptionDataWhatsapp.is_enabled == 1 %}
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="mws-form-label">Username:</label> {{subcriptionDataWhatsapp.username|check_none_value}}
+								</div>
+							</div>
+							{% for plan in planDataWhatsapp %}
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="mws-form-label" style="font-size:16px;">Plan:</label> {{forloop.counter}}
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="mws-form-label">Offer Type:</label> {{plan.plan_type|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Offer Period:</label> {{plan.offer_period_time|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Offer Period Type:</label> {{plan.offer_period_type|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Price:</label> {{plan.price|check_none_value}}
+									</div>
+									<hr>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="mws-form-label">Currencey:</label> {{plan.currency|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Offer Name:</label> {{plan.offer_name|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Discount:</label>{% if plan.is_discount_enabled == 1 %} Yes{% else %} No{% endif %}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Discount Amount:</label> {{plan.discount|check_none_value}}
+									</div>
+									<hr>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="mws-form-label">Permanent:</label>{%if plan.is_permanent_discount == 1%} Yes{% else %} No{% endif %}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">From Discount Date:</label> {{plan.from_discount_date|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">To Discount Date:</label> {{plan.to_discount_date|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Apply To Rebill:</label>{% if plan.is_apply_to_rebills == 1 %} Yes{% else %} No{% endif %}
+									</div>
+									<hr>
+								</div>
+							{% endfor %}
+						{% endif %}
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="col-md-12"><div class="form-group data-options">
+							<label class="mws-form-label" style="font-size:18px;">Instagram:</label>{% if subcriptionDataInstagram.is_enabled == 1 %} Enabled{% else %} Disabled{% endif %}
+						</div></div>
+						{% if subcriptionDataInstagram.is_enabled == 1 %}
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="mws-form-label">Username:</label> {{subcriptionDataInstagram.username|check_none_value}}
+								</div>
+							</div>
+							{% for plan in planDataInsta %}
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="mws-form-label" style="font-size:16px;">Plan:</label> {{forloop.counter}}
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="mws-form-label">Offer Type:</label> {{plan.plan_type|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Offer Period:</label> {{plan.offer_period_time|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Offer Period Type:</label> {{plan.offer_period_type|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Price:</label> {{plan.price|check_none_value}}
+									</div>
+									<hr>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="mws-form-label">Currencey:</label> {{plan.currency|check_none_value}}
+									</div>
+									
+									<div class="form-group">
+										<label class="mws-form-label">Offer Name:</label> {{plan.offer_name|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Description:</label> {{plan.description|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Discount:</label>{% if plan.is_discount_enabled == 1 %} Yes{% else %} No{% endif %}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Discount Amount:</label> {{plan.discount|check_none_value}}
+									</div>
+									<hr>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="mws-form-label">Permanent:</label>{% if plan.is_permanent_discount == 1 %} Yes{% else %} No{% endif %}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">From Discount Date:</label> {{plan.from_discount_date|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">To Discount Date:</label> {{plan.to_discount_date|check_none_value}}
+									</div>
+									<div class="form-group">
+										<label class="mws-form-label">Apply To Rebill:</label>{% if plan.is_apply_to_rebills == 1 %} Yes{% else %} No{% endif %}
+									</div>
+									<hr>
+								</div>
+							{% endfor %}
+						{% endif %}
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="col-md-12"><div class="form-group data-options">
+							<label class="mws-form-label" style="font-size:18px;">Tips:</label>{% if subcriptionDataTips.is_enabled == 1 %} Enabled{% else %} Disabled{% endif %}
+						</div></div>
+					</div>
+				</div>
+				<hr>
+				<!-- account verification section start-->
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">ACCOUNT VERIFICATION (Verified Government ID)</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="mws-form-label">Government Id Number:</label> {{form.government_id_number|check_none_value}}
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Government Id Front Image:</label>
+							<div class="mws-form-item">
+								<img src="">
+								{% if form.government_id_front_image != "" %}
+								<a class="fancybox-buttons" data-fancybox-group="button" href="{{settings.MODEL_IMAGE_URL}}{{form.government_id_front_image}}">
+								<img height="100" width="100" src="{{settings.MODEL_IMAGE_URL}}{{form.government_id_front_image}}"/>
+								</a>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="mws-form-label">ID Expiration Date:</label> {{form.government_id_expiration_date|check_none_value}}
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Government Id Back Image:</label>
+							<div class="mws-form-item">
+								<img src="">
+								{% if form.government_id_back_image != "" %}
+								<a class="fancybox-buttons" data-fancybox-group="button" href="{{settings.MODEL_IMAGE_URL}}{{form.government_id_back_image}}">
+								<img height="100" width="100" src="{{settings.MODEL_IMAGE_URL}}{{form.government_id_back_image}}"/>
+								</a>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<!-- photo verification section start-->
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">ACCOUNT VERIFICATION (Photo Verification)</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="mws-form-label">Take photo next to ID:</label>
+							<div class="mws-form-item">
+								<img src="">
+								{% if form.photo_next_to_id != "" %}
+								<a class="fancybox-buttons" data-fancybox-group="button" href="{{settings.MODEL_IMAGE_URL}}{{form.photo_next_to_id}}">
+								<img height="100" width="100" src="{{settings.MODEL_IMAGE_URL}}{{form.photo_next_to_id}}"/>
+								</a>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="mws-form-label">Take photo next to ID and dated paper:</label>
+							<div class="mws-form-item">
+								<img src="">
+								{% if form.photo_next_to_id_with_dated_paper != "" %}
+								<a class="fancybox-buttons" data-fancybox-group="button" href="{{settings.MODEL_IMAGE_URL}}{{form.photo_next_to_id_with_dated_paper}}">
+								<img height="100" width="100" src="{{settings.MODEL_IMAGE_URL}}{{form.photo_next_to_id_with_dated_paper}}"/>
+								</a>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<!-- account details section start-->
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">ACCOUNT DETAILS</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="mws-form-label">Account Name:</label> {{form.model_name|check_none_value}}
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Email:</label> {{form.email|check_none_value}}
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="mws-form-label">Phone Number:</label> {{form.phone_number|check_none_value}}
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Skype Number:</label> {{form.skype_number|check_none_value}}
+						</div>
+					</div>
+				</div>
+				{% if paymentDetails %}
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">PAYMENT DETAILS</th>
+						</tr>
+					</thead>
+				</table>
+				{% endif %}
+				<div class="row">
+				{% if paymentDetails.payment_method == 'wire' %}
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="mws-form-label">Beneficiary Name</label> {{paymentDetails.beneficiary_name}}
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Beneficiary Address</label> {{paymentDetails.beneficiary_address}}
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Bank Name</label> {{paymentDetails.bank_name}}
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Bank Address</label> {{paymentDetails.bank_address}}
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">SWIFT Code</label> {{paymentDetails.swift_bic}}
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="mws-form-label">Account Number</label> {{paymentDetails.account_number}}
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Transit Number</label> {{paymentDetails.transit_number}}
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Institution Number</label> {{paymentDetails.institution_number}}
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">MEMO</label> {{paymentDetails.memo}}
+						</div>
+					</div>
+					{% endif %}
+					{% if paymentDetails.payment_method == 'cheque' %}
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="mws-form-label">Bank Name</label> {{paymentDetails.bank_name}}
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Account Number</label> {{paymentDetails.account_number}}
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">SWIFT/BIC/IFSC Code</label> {{paymentDetails.swift_bic}}
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="mws-form-label">Beneficiary Name</label> {{paymentDetails.beneficiary_name}}
+						</div>
+			
+						<div class="form-group">
+							<label class="mws-form-label">Phone Number</label> {{paymentDetails.phone_number}}
+						</div>
+					</div>
+					{% endif %}
+					{% if paymentDetails.payment_method == 'paypal' %}
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="mws-form-label">Paypal Email Address</label> {{paymentDetails.paypal_email}}
+						</div>
+					</div>
+					{% endif %}
+				</div>
+				<hr>
+
+
+
+				{% if additionalLinks %}
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">Additional Links</th>
+						</tr>
+					</thead>
+				</table>
+				
+				<div class="row">
+					{% for additional in additionalLinks %}
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="mws-form-label">{{additional.name|title}}:</label> {{additional.link|check_none_value}}
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+				{% endif %}
+				<hr>
+
+
+			</div>
+		</div>
+	</section>
+</div>
+<link rel="stylesheet" href="{%  static 'admin/css/jquery.fancybox.css' %}">
+<script src="{%  static 'admin/js/jquery.fancybox.js' %}"></script>
+<script>
+	$(function(){
+		$('.fancybox').fancybox();
+		$('.fancybox-buttons').fancybox({
+			openEffect  : 'none',
+			closeEffect : 'none',
+			prevEffect : 'none',
+			nextEffect : 'none',
+		});
+	});
+</script>
+{% endblock %}
+

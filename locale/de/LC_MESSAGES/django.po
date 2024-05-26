@@ -1,0 +1,394 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-11-06 13:21+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/api/views.py:63 apps/api/views.py:144 apps/api/views.py:252
+#: apps/api/views.py:808 apps/api/views.py:1696
+msgid "The_email_field_is_required"
+msgstr "Das E-Mail-Feld ist erforderlich."
+
+#: apps/api/views.py:67 apps/api/views.py:148 apps/api/views.py:256
+#: apps/api/views.py:812 apps/api/views.py:1700
+msgid "This_email_is_not_valid"
+msgstr "Diese E-Mail ist ungültig."
+
+#: apps/api/views.py:70 apps/api/views.py:160 apps/api/views.py:268
+msgid "The_password_field_is_required"
+msgstr "Das Passwortfeld ist erforderlich."
+
+#: apps/api/views.py:84 apps/api/views.py:123
+msgid "Invalid_email_or_password"
+msgstr "Ungültige E-Mail oder Passwort."
+
+#: apps/api/views.py:91
+msgid "Your_account_has_been_deactivated_Please_contact_to_admin"
+msgstr "Dein Konto wurde deaktiviert. Bitte wenden Sie sich an admin."
+
+#: apps/api/views.py:98
+msgid "Your_account_is_not_verified"
+msgstr "Dein Profil ist nicht bestätigt."
+
+#: apps/api/views.py:105
+msgid "Your_profile_is_pending_for_approval"
+msgstr "Ihr Profil muss noch genehmigt werden."
+
+#: apps/api/views.py:114
+msgid "You_have_login_successfully"
+msgstr "Sie haben sich erfolgreich angemeldet."
+
+#: apps/api/views.py:151 apps/api/views.py:259 apps/api/views.py:1703
+msgid "This_email_is_already_exists"
+msgstr "Diese E-Mail existiert bereits."
+
+#: apps/api/views.py:154 apps/api/views.py:262
+msgid "The_confirm_email_field_is_required"
+msgstr "Das E-Mail-Bestätigungsfeld ist erforderlich."
+
+#: apps/api/views.py:157 apps/api/views.py:265
+msgid "The_email_and_confirm_email_field_is_not_equal"
+msgstr "Das Feld E-Mail und E-Mail bestätigen ist nicht gleich."
+
+#: apps/api/views.py:163 apps/api/views.py:271
+msgid "The_user_role_field_is_required"
+msgstr "Das Benutzerrollenfeld ist erforderlich."
+
+#: apps/api/views.py:166 apps/api/views.py:274
+msgid "The_user_role_value_is_not_valid"
+msgstr "Der Benutzerrollenwert ist ungültig."
+
+#: apps/api/views.py:231 apps/api/views.py:1642
+msgid "Your_account_has_been_registered_successfully_Please_check_your_email_to_verify_your_account"
+msgstr ""
+"Ihr Konto wurde erfolgreich registriert."
+
+#: apps/api/views.py:482
+msgid "Your_account_has_been_registered_successfully"
+msgstr "Ihr Konto wurde erfolgreich registriert."
+
+#: apps/api/views.py:751 apps/api/views.py:758
+msgid "Model_not_found"
+msgstr "Modell nicht gefunden."
+
+#: apps/api/views.py:775 apps/api/views.py:793 apps/api/views.py:965
+#: apps/api/views.py:983 apps/api/views.py:1023 apps/api/views.py:1195
+#: apps/api/views.py:1357 apps/api/views.py:1509 apps/api/views.py:1951
+#: apps/api/views.py:2025
+msgid "Invalid_request"
+msgstr "Ungültige Anfrage."
+
+#: apps/api/views.py:815
+msgid "The_name_field_is_required"
+msgstr "Das Namensfeld ist erforderlich."
+
+#: apps/api/views.py:818
+msgid "The_subject_field_is_required"
+msgstr "Das Betrefffeld ist erforderlich."
+
+#: apps/api/views.py:821
+msgid "The_message_field_is_required"
+msgstr "Das Nachrichtenfeld ist erforderlich."
+
+#: apps/api/views.py:836
+msgid "Support_request_sent_sucessfully"
+msgstr "Supportanfrage erfolgreich gesendet."
+
+#: apps/api/views.py:876 apps/api/views.py:912 apps/api/views.py:947
+msgid "No_data_found"
+msgstr "Keine Daten gefunden."
+
+#: apps/api/views.py:977
+msgid "Your_account_verified_successfully"
+msgstr "Ihr Konto wurde erfolgreich bestätigt."
+
+#: apps/api/views.py:1030
+msgid "Subscription_plan_removed_successfully"
+msgstr "Abo-Plan erfolgreich entfernt."
+
+#: apps/api/views.py:1044
+msgid "The_subscription_field_is_required"
+msgstr "Das Abonnementfeld ist erforderlich."
+
+#: apps/api/views.py:1111
+msgid "Subscriptions_updated_sucessfully"
+msgstr "Abonnements wurden erfolgreich aktualisiert."
+
+#: apps/api/views.py:1177
+#, fuzzy
+#| msgid "Invalid_request"
+msgid "Invalid_requst"
+msgstr "Ungültige Anfrage."
+
+#: apps/api/views.py:1333
+msgid "Profile_updated_sucessfully"
+msgstr "Profil erfolgreich aktualisiert."
+
+#: apps/api/views.py:1371
+msgid "Model_followed_successfully"
+msgstr "Modell folgte erfolgreich."
+
+#: apps/api/views.py:1380
+msgid "Model_unfollowed_successfully"
+msgstr "Modell nicht erfolgreich verfolgt."
+
+#: apps/api/views.py:1485
+msgid "Following_listed_successfully"
+msgstr "Folgendes wird erfolgreich aufgelistet."
+
+#: apps/api/views.py:1492
+msgid "No_followings_found"
+msgstr "Keine Verfolgungen gefunden."
+
+#: apps/api/views.py:1517
+msgid "Image_removed_successfully"
+msgstr "Bild wurde erfolgreich entfernt."
+
+#: apps/api/views.py:1567
+msgid "Notification_setting_updated_sucessfully"
+msgstr "Die Benachrichtigungseinstellungen wurden erfolgreich aktualisiert."
+
+#: apps/api/views.py:1586
+msgid "User_already_exiets_Please_login_to_process"
+msgstr ""
+"Benutzer existiert bereits. Bitte melden Sie sich an, um zu verarbeiten."
+
+#: apps/api/views.py:1662
+msgid "You_have_already_Subscribe_for_this_plan"
+msgstr "Sie haben diesen Plan bereits abonniert."
+
+#: apps/api/views.py:1682
+msgid "Plan_subscribed_successfully"
+msgstr "Plan wurde erfolgreich abonniert."
+
+#: apps/api/views.py:1713
+msgid "Your_email_has_been_subscribed_successfully"
+msgstr "Ihre E-Mail wurde erfolgreich abonniert."
+
+#: apps/api/views.py:1735 apps/api/views.py:1870
+msgid "The_title_field_is_required"
+msgstr "Das Titelfeld ist erforderlich."
+
+#: apps/api/views.py:1738 apps/api/views.py:1873
+msgid "The_description_field_is_required"
+msgstr "Das Beschreibungsfeld ist erforderlich."
+
+#: apps/api/views.py:1741
+msgid "The_image_field_is_required"
+msgstr "Das Bildfeld ist erforderlich."
+
+#: apps/api/views.py:1746 apps/api/views.py:1879
+msgid ""
+"The_image_is_not_a_valid_image_Please_upload_a_valid_image_Valid_extensions_are_jpg,"
+"jpeg,png,gif"
+msgstr ""
+"Das Bild ist kein gültiges Bild. Bitte laden Sie ein gültiges Bild hoch. "
+"Gültige Erweiterungen sind jpg, jpeg, png, gif."
+
+#: apps/api/views.py:1784
+#, fuzzy
+#| msgid "you_account_has_been_added_succesfully"
+msgid "Your_profile_has_been_added_successfully"
+msgstr "Ihr Profil wurde erfolgreich hinzugefügt."
+
+#: apps/api/views.py:1867
+msgid "The_private_feed_id_field_is_required"
+msgstr "Das Feld für die private Feed-ID ist erforderlich."
+
+#: apps/api/views.py:1922
+msgid "Your_profile_has_been_updated_successfully"
+msgstr "Dein Profil wurde erfolgreich aktualisiert."
+
+#: apps/api/views.py:1929 apps/api/views.py:1966 apps/api/views.py:2002
+msgid "Private_feed_id_does_not_exists"
+msgstr "Private Feed-ID existiert nicht."
+
+#: apps/api/views.py:1960
+msgid "Private_feed_removed_successfully"
+msgstr "Privater Feed erfolgreich entfernt."
+
+#: apps/api/views.py:1982
+msgid "The_private_feed_id_is_required"
+msgstr "Die private Feed-ID ist erforderlich."
+
+#: apps/api/views.py:1995
+msgid "Your_profile_has_been_published_successfully"
+msgstr "Ihr Profil wurde erfolgreich veröffentlicht."
+
+#: apps/api/views.py:2101
+msgid "Subscribers_listed_successfully"
+msgstr "Abonnenten werden erfolgreich aufgelistet."
+
+#: apps/api/views.py:2108
+msgid "No_Subscriber_found"
+msgstr "Kein Abonnent gefunden."
+
+#: apps/api/views.py:2140
+msgid "The_model_id_field_is_required"
+msgstr "Das Modell-ID-Feld ist erforderlich."
+
+#: apps/api/views.py:2143
+msgid "The_report_reason_field_is_required"
+msgstr "Das Feld für den Berichtsgrund ist erforderlich."
+
+#: apps/api/views.py:2146
+msgid "The_dropdownmanager_id_field_is_required"
+msgstr "Das Dropdown-Manager-ID-Feld ist erforderlich."
+
+#: apps/api/views.py:2159
+msgid "Model_successfully_reported"
+msgstr "Modell wurde erfolgreich gemeldet."
+
+#~ msgid ""
+#~ "Your_account_has_been_registered_successfully_Please_check_your_eamil_to_verify_your "
+#~ "_account"
+#~ msgstr ""
+#~ "Ihr Konto wurde erfolgreich registriert. Bitte überprüfen Sie Ihre E-Mail-"
+#~ "Adresse, um Ihr Konto zu verifizieren."
+
+#: apps/api/views2.py:112
+msgid "Tips_successfully_saved"
+msgstr "Tipps erfolgreich gespeichert."
+
+#: apps/api/views.py:2901
+msgid "The_method_field_is_required"
+msgstr "Das Methodenfeld ist erforderlich."
+
+#: apps/api/views.py:2904
+msgid "The_minimum_payout_field_is_required"
+msgstr "Das Feld für die Mindestauszahlung ist erforderlich."
+
+#: apps/api/views.py:2907
+msgid "The_pay_to_field_is_required"
+msgstr "Das pay to Feld ist erforderlich."
+
+#: apps/api/views.py:2910
+msgid "The_bank_name_field_is_required"
+msgstr "Das Feld für den Banknamen ist erforderlich."
+
+#: apps/api/views.py:2913
+msgid "The_bank_address_field_is_required"
+msgstr "Das Feld für die Bankadresse ist erforderlich."
+
+#: apps/api/views.py:2916
+msgid "The_country_field_is_required"
+msgstr "Das Länderfeld ist erforderlich."
+
+#: apps/api/views.py:2919
+msgid "The_swift_bic_field_is_required"
+msgstr "Das schnelle BIC-Feld ist erforderlich."
+
+#: apps/api/views.py:2922
+msgid "The_iban_field_is_required"
+msgstr "Das iban-Feld ist erforderlich."
+
+#: apps/api/views.py:2940
+msgid "Payment_details_successfully_saved"
+msgstr "Zahlungsdetails erfolgreich gespeichert."
+
+#: apps/api/views.py:924
+msgid "This_phone_number_is_not_valid"
+msgstr "Diese Telefonnummer ist ungültig."
+
+#: apps/api/views.py:920
+msgid "The_phone_number_field_is_required"
+msgstr "Das Telefonnummernfeld ist erforderlich."
+
+#: apps/api/views2.py:64
+msgid "The_currency_field_is_required"
+msgstr "Das Währungsfeld ist erforderlich."
+
+#: apps/api/views2.py:68
+msgid "The_amount_field_is_required"
+msgstr "Das Betragsfeld ist erforderlich."
+
+#: apps/api/views.py:4114
+msgid "Your_are_successfully_unsubscribed_from_newsletters"
+msgstr "Sie haben sich erfolgreich vom Newsletter abgemeldet."
+
+#: apps/api/views.py:4120
+msgid "Subscriber_does_not_exists"
+msgstr "Abonnent existiert nicht."
+
+#: apps/api/views.py:4185
+msgid "Your_reset_password_request_has_been_registered_successfully_Please_check_your_email_to_reset_your_password"
+msgstr "Ihre Anfrage zum Zurücksetzen des Passworts wurde erfolgreich registriert. Bitte überprüfen Sie Ihre E-Mails, um Ihr Passwort zurückzusetzen."
+
+#: apps/api/views.py:4145
+msgid "This_email_does_not_exists"
+msgstr "Diese E-Mail existiert nicht."
+
+#: apps/api/views.py:4213
+msgid "The_forgot_password_string_field_is_required"
+msgstr "Das Feld für die Zeichenfolge Passwort vergessen ist erforderlich."
+
+#: apps/api/views.py:4216
+msgid "The_forgot_password_string_does_not_exists"
+msgstr "Die Zeichenfolge für das vergessene Kennwort existiert nicht."
+
+#: apps/api/views.py:4233
+msgid "Your_password_resets_successfully"
+msgstr "Ihr Passwort wurde erfolgreich zurückgesetzt."
+
+#: apps/api/views.py:1546
+msgid "Old_password_is_not_correct"
+msgstr "Das alte Passwort ist nicht korrekt."
+
+#: apps/api/views.py:1527
+msgid "The_old_password_field_is_required"
+msgstr "Das alte Passwort ist erforderlich."
+
+#: apps/api/views.py:1530
+msgid "The_old_password_field_should_be_atleast_8_digits"
+msgstr "Das alte Passwort sollte aus mindestens 8 Ziffern bestehen."
+
+#: apps/api/views.py:1533
+msgid "The_new_password_field_is_required"
+msgstr "Das neue Passwort ist erforderlich."
+
+#: apps/api/views.py:1536
+msgid "The_new_password_field_should_be_atleast_8_digits"
+msgstr "Das neue Passwort sollte mindestens 8-stellig sein."
+
+#: apps/api/views.py:1539
+msgid "The_confirm_password_field_is_required"
+msgstr "Das Bestätigungskennwort ist erforderlich."
+
+#: apps/api/views.py:1542
+msgid "The_confirm_password_and_new_password_does_not_match"
+msgstr "Das Bestätigungskennwort und das neue Kennwort stimmen nicht überein."
+
+#: apps/api/views.py:3394
+msgid "Subscriber_removed_successfully"
+msgstr "Your account has been deactivated successfully."
+
+#: apps/api/views.py:3412
+msgid "password_is_not_correct"
+msgstr "Passwort ist nicht korrekt."
+
+#: apps/api/views.py:3385
+msgid "The_password_field_should_be_atleast_8_digits"
+msgstr "Das Passwortfeld sollte mindestens 8-stellig sein."
+
+
+#: apps/api/views.py:1668
+msgid "Password_has_been_changed_successfully_please_login_again"
+msgstr "Your password has been changed successfully. Please login to your account again."
+
+#: apps/api/views2.py:103
+msgid "The_expiry_date_field_is_not_valid"
+msgstr "The expiry date is not valid."

@@ -1,0 +1,136 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+
+  <!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<h1>
+				{{dropdown_type_text|title }}
+			</h1>
+			<ol class="breadcrumb">
+				<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+				<li class="active">{{dropdown_type_text|title}}</li>
+			</ol>
+		</section>
+
+		<!-- Main content -->
+		<section class="content">
+			<div class="row">
+				<form autocomplete="off" action="{% url 'dropdown-managers.index' dropdown_type %}">
+					<div class="col-md-12 col-sm-12">
+						<div class="col-md-3 col-sm-3">
+							<div class="form-group">  
+								<input type="text" value="{{searchingVariables.name}}" name="name" class="form-control" placeholder="Search by Name" />
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-2">
+							<button class="btn btn-primary" style="margin:0;"><i class='fa fa-search '></i> Search</button>
+							<a href="{% url 'dropdown-managers.index' dropdown_type %}"  class="btn btn-primary" style="margin:0;"><i class='fa fa-refresh '></i> Reset</a>
+						</div>
+						<div class="col-md-6 col-sm-6">
+							<div class="form-group  pull-right">  
+								<a href="{% url 'dropdown-managers.add' dropdown_type  %}" class="btn btn-success btn-small align" style="margin:0;">Add New {{dropdown_type_text|title}}</a>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="box">
+				<div class="box-body">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th width="35%">
+									<a href="?page={{ page }}&order_by=name&direction={% if direction == 'ASC' and order_by == 'name' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Name</a>
+								</th>
+								<th width="25%">
+									<a href="?page={{ page }}&order_by=created_at&direction={% if direction == 'ASC'  and order_by == 'created_at' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Created On</a>
+								</th>
+								<th width="20%">
+									<a href="?page={{ page }}&order_by=is_active&direction={% if direction == 'ASC'  and order_by == 'is_active' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Status</a>
+								</th>
+								<th width="20%">
+									Action
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% if results %}
+								{% for result in results %}
+									<tr>
+										<td>
+											{{result.name}}
+										</td>
+										<td>
+											{{result.created_at|date:datetimeFormat}}
+										</td>
+										<td>
+											{% if result.is_active == 1 %}
+												<span class="label label-success" >Active</span>
+											{% else %}
+												<span class="label label-danger" >Deactive</span>
+											{% endif %}
+										</td>
+										<td>
+											{% if result.is_active == 1 %}
+											
+												<a  title="Click To Deactivate" href="{% url 'dropdown-managers-change-status' dropdown_type result.id  result.is_active   %}" class="btn btn-danger btn-small status_change"><span class="fa fa-ban"></span></a>
+											{% else %}
+												<a  title="Click To Active" href="{% url 'dropdown-managers-change-status'  dropdown_type result.id result.is_active   %}" class="btn btn-primary btn-small status_change"><span class="fa fa-check"></span></a>
+											{% endif %}
+											
+											<a href="{% url 'dropdown-managers.edit' dropdown_type result.id  %}" class="btn btn-success" title="Edit"> 
+												<span class="fa fa-pencil"></span>
+											</a>
+
+											<a href="{% url 'dropdown-managers.delete' dropdown_type result.id %}" class="btn btn-danger delete_any_item status_change_country" title="Delete">
+												<span class="fa fa-trash-o"></span>
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+							{% else %}
+								<tr>
+									<td colspan="7" style="text-align:center">Record not found.</td>
+								</tr>
+							{% endif %}
+						</tbody>
+					</table>
+				</div>
+				{% include "admin/paginations.html" %}
+			</div> 
+		</section> 
+		<!-- /.content -->
+	</div>
+  <!-- /.content-wrapper -->
+  
+ <script>
+ $(document).ready(function(){
+	$(document).on('click', '.status_change', function(e){
+			e.stopImmediatePropagation();
+			url = $(this).attr('href');
+			bootbox.confirm("Are you sure want to change status?",
+			function(result){
+				if(result){
+					window.location.replace(url);
+				}
+			});
+			e.preventDefault();
+		});
+		$(document).on('click', '.status_change_country', function(e){
+			e.stopImmediatePropagation();
+			url = $(this).attr('href');
+			bootbox.confirm("Are you sure want to delete this"+' {{dropdown_type}}'+'?',
+			function(result){
+				if(result){
+					window.location.replace(url);
+				}
+			});
+			e.preventDefault();
+		});
+	});
+	
+ </script>
+{% endblock %}

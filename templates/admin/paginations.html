@@ -1,0 +1,26 @@
+{% if results.has_other_pages %}
+	<div class="box-footer clearfix">	
+		<div class="col-md-3 col-sm-4 "></div>
+		<div class="col-md-9 col-sm-8 text-right ">
+			  <ul class="pagination" style="margin:0px !important;">
+				{% if results.has_previous %}
+				  <li><a href="?page={{ results.previous_page_number }}&order_by={{order_by}}&direction={{direction}}{% if querySring != '' %}&{{querySring}}{% endif %}">&laquo;</a></li>
+				{% else %}
+				  <li class="disabled"><span>&laquo;</span></li>
+				{% endif %}
+				{% for i in page_range %}
+				  {% if results.number == i %}
+					<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+				  {% else %}
+					<li><a href="?page={{ i }}&order_by={{order_by}}&direction={{direction}}{% if querySring != '' %}&{{querySring}}{% endif %}">{{ i }}</a></li>
+				  {% endif %}
+				{% endfor %}
+				{% if results.has_next %}
+				  <li><a href="?page={{ results.next_page_number }}&order_by={{order_by}}&direction={{direction}}{% if querySring != '' %}&{{querySring}}{% endif %}">&raquo;</a></li>
+				{% else %}
+				  <li class="disabled"><span>&raquo;</span></li>
+				{% endif %}
+			  </ul>
+		</div>
+	</div>
+{% endif %}

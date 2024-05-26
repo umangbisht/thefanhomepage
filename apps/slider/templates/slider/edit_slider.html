@@ -1,0 +1,97 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Edit Banner
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="{% url 'image.slider' %}">Banners</a></li>
+			<li class="active">	Edit Banner</li>
+		</ol>
+	</section>
+	<section class="content"> 
+		<form method="POST" autocomplete="off" action="{% url 'edit.image.slider' sliderDetail.id %}" enctype="multipart/form-data" id="add_slider_form">
+			{% csrf_token %}
+			<div class="row pad">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="mws-form-label">Title<span class="requireRed"> *</span></label>
+                        <div class="mws-form-item">
+                            <input type="text" value="{{sliderDetail.title|check_none_value}}" name="title" id="title" placeholder="Slider Title" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.title }}</span>
+                        </div>
+                    </div>
+					<div class="form-group">
+						<label class="mws-form-label">Banner<span class="requireRed"> *</span></label>
+						<div class="mws-form-item">
+                            <input type="file" name="slider" id="slider" />
+                            <a class="fancybox-buttons" data-fancybox-group="button" href="{{settings.SLIDER_IMAGE_URL}}{{sliderDetail.slider}}">
+								<img height="100" width="100" src="{{settings.SLIDER_IMAGE_URL}}{{sliderDetail.slider}}"/>
+							</a>
+							<span class="error-message help-inline">{{ errors.slider }}</span>
+						</div>
+					</div>
+                    <div class="form-group">
+                        <label class="mws-form-label">Description<span class="requireRed"> * </span></label>
+                        <div class="mws-form-item">
+                            <textarea class="form-control description" name="description">{{sliderDetail.description}}</textarea>
+                            <span class="error-message help-inline">{{ errors.description }}</span>
+                        </div>
+                        <script>		
+                            CKEDITOR.replace("description",
+                            {
+                                height: 300,
+                                filebrowserImageWindowWidth : '640',
+                                filebrowserImageWindowHeight : '480',
+                                enterMode : CKEDITOR.ENTER_BR
+                            });
+                            function InsertHTML() {
+                                var strUser = document.getElementById("constants").value;
+                                if(strUser != ''){
+                                    var newStr = '{'+strUser+'}';
+                                    var oEditor = CKEDITOR.instances["description"] ;
+                                    oEditor.insertHtml(newStr) ;	
+                                }
+                            }
+                            
+                        </script>
+                    </div>
+                    <div class="form-group">
+                        <label class="mws-form-label">Order<span class="requireRed"> *</span></label>
+                        <div class="mws-form-item">
+                            <input type="number" min="0" value="{{sliderDetail.order|check_none_value}}" name="order" id="order" placeholder="Slider Order" class="form-control" />
+                            <span class="error-message help-inline">{{ errors.order }}</span>
+                        </div>
+                    </div>
+                </div>
+			</div>
+			<div class="mws-button-row">
+				<div class="input" >
+                    <input type="submit" value="Submit" class="btn btn-success">
+                    <a href="{% url 'edit.image.slider' sliderDetail.id %}" class="btn btn-primary"><i class=\"icon-refresh\"></i> Reset</a>
+                    <a href="{% url 'image.slider' %}" class="btn btn-info"><i class=\"icon-refresh\"></i> Cancel</a>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+<link rel="stylesheet" href="{%  static 'admin/css/jquery.fancybox.css' %}">
+<script src="{%  static 'admin/js/jquery.fancybox.js' %}"></script>
+<script>
+        $(function(){
+            $('.fancybox').fancybox();
+            $('.fancybox-buttons').fancybox({
+                openEffect  : 'none',
+                closeEffect : 'none',
+                prevEffect : 'none',
+                nextEffect : 'none',
+            });
+        });
+</script>
+
+{% endblock %}

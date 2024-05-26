@@ -1,0 +1,513 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <section class="content">
+      <!-- Info boxes -->
+      <div class="box">
+        <div class="box-body">
+          <div class="innerbox">
+            <h3 class="innerhead">User Statistics</h3>
+            <div class="row">
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="custom-box box box-solid box-info">
+                  <span class="box-header">Total Subscribers</span>
+                  <span class="box-body custom-number">{{totalSubscriber}}</span>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="custom-box box box-solid box-danger">
+                  <span class="box-header">Total Models</span>
+                  <span class="box-body custom-number">{{totalModel}}</span>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="custom-box box box-solid box-success">
+                  <span class="box-header">Active Models</span>
+                  <span class="box-body custom-number">{{activeModel}}</span>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="custom-box box box-solid box-warning">
+                  <span class="box-header">Approved Models</span>
+                  <span class="box-body custom-number">{{approvedModel}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="innerbox">
+            <h3 class="innerhead">Net Profit Statistics</h3>
+            <div class="row">
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="custom-box box box-solid box-info">
+                  <span class="box-header">USD</span>
+                  <span class="box-body custom-number">{{amountUSD}}</span>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="custom-box box box-solid box-danger">
+                  <span class="box-header">AUD</span>
+                  <span class="box-body custom-number">{{amountAUD}}</span>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="custom-box box box-solid box-success">
+                  <span class="box-header">GBP</span>
+                  <span class="box-body custom-number">{{amountGBP}}</span>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="custom-box box box-solid box-warning">
+                  <span class="box-header">EUR</span>
+                  <span class="box-body custom-number">{{amountEUR}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="innerbox">
+            <h3 class="innerhead">Payment Statistics</h3>
+            <div class="row">
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="custom-box box box-solid box-info">
+                  <span class="box-header">USD</span>
+                  <span class="box-body custom-number">{{amountUSDPayment}}</span>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="custom-box box box-solid box-danger">
+                  <span class="box-header">AUD</span>
+                  <span class="box-body custom-number">{{amountAUDPayment}}</span>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="custom-box box box-solid box-success">
+                  <span class="box-header">GBP</span>
+                  <span class="box-body custom-number">{{amountGBPPayment}}</span>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="custom-box box box-solid box-warning">
+                  <span class="box-header">EUR</span>
+                  <span class="box-body custom-number">{{amountEURPayment}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="innerbox">
+            <h3 class="innerhead">Net Profit in Currencies</h3>
+            <div class="row">
+              <div class="text-center">
+                <canvas id="pieChart" style="max-width: 500px;margin:0 auto;"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="innerbox">
+            <h3 class="innerhead">Payment in Currencies</h3>
+            <div class="row">
+              <div class="text-center">
+                <canvas id="pieChartPayment" style="max-width: 500px;margin:0 auto;"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="innerbox">
+            <h3 class="innerhead">Net Profit in Month</h3>
+            <div class="row">
+              <div id="incomeLineChart">
+              </div>
+            </div>
+          </div>
+
+          <div class="innerbox">
+            <h3 class="innerhead">Payment in Month</h3>
+            <div class="row">
+              <div id="incomeLineChartPayment">
+              </div>
+            </div>
+          </div>
+
+          <div class="innerbox">
+            <h3 class="innerhead">Total Registrations in Month</h3>
+            <div class="row">
+              <div class="maxsize-chart">
+              <canvas id="mySubscriberChart"></canvas>
+            </div>
+            </div>
+          </div>
+          <!-- <div class="innerbox">
+            <h3 class="innerhead">Models in Month</h3>
+            <div class="row">
+              <div class="maxsize-chart">
+              <canvas id="myModelChart"></canvas>
+            </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="{% static 'admin/js/chartJs/Chart.js' %}"></script>
+  <script src="{% static 'admin/js/Chart.js' %}"></script>
+  <script src="{% static 'admin/js/apexcharts.min.js' %}"></script>
+ <!-- <script src="https://code.highcharts.com/highcharts.src.js"></script> -->
+
+  <script>
+
+    //--------------Pie Chart for commission------------
+    var ctxP = document.getElementById("pieChart").getContext('2d');
+    var myPieChart = new Chart(ctxP, {
+      type: 'pie',
+      data: {
+        labels: ["USD", "AUD", "GBP", "EUR"],
+        datasets: [{
+          data: ['{{amountUSD}}', '{{amountAUD}}', '{{amountGBP}}', '{{amountEUR}}'],
+          backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C",  "#4D5360"],
+          hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#616774"]
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+
+    //------------------Pie Chart for payment amount----------------------
+    var ctxP = document.getElementById("pieChartPayment").getContext('2d');
+    var myPieChart = new Chart(ctxP, {
+      type: 'pie',
+      data: {
+        labels: ["USD", "AUD", "GBP", "EUR"],
+        datasets: [{
+          data: ['{{amountUSDPayment}}', '{{amountAUDPayment}}', '{{amountGBPPayment}}', '{{amountEURPayment}}'],
+          backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C",  "#4D5360"],
+          hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#616774"]
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+
+
+  //------------Line Chart Net Profit---------------
+
+
+var options = {
+      chart: {
+        height: 350,
+        type: 'area',
+        // stacked: false,
+        events: {
+          selection: function(chart, e) {
+            console.log(new Date(e.xaxis.min) )
+          }
+        },
+
+      },
+      colors: ['#0866C6', '#00b297', '#e83e8c', '#f39c12'],
+      dataLabels: {
+          enabled: false
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+
+      series: [
+      	{% for cyy in currency_list %} 
+			
+			{
+			  name: '{{cyy}}',
+			  data: [
+			  {% for result in yearData %}
+			{% if cyy == "USD"%}
+	 			{   y: {{yearData|get_item_currency_usd:result}},x:'{{result}}' },
+				{% endif %}
+				{% if cyy == "AUD"%}
+				{  y: {{yearData|get_item_currency_aud:result}},x:'{{result}}' },
+			{% endif %}
+				{% if cyy == "GBP"%}
+				{  y: {{yearData|get_item_currency_gbp:result}},x:'{{result}}' },
+				{% endif %}
+				{% if cyy == "EUR"%}
+	 			{  y: {{yearData|get_item_currency_eur:result}},x:'{{result}}' },
+	 			{% endif %}
+	 		{% endfor %}
+			  ]
+			},
+			
+        {% endfor %}
+      ],
+      fill: {
+        type: 'gradient',
+        gradient: {
+          opacityFrom: 0.6,
+          opacityTo: 0.8,
+        }
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'left'
+      },
+      xaxis: {
+        type: 'datetime'
+      },
+    }
+
+    var chart = new ApexCharts(
+      document.querySelector("#incomeLineChart"),
+      options
+    );
+
+    chart.render();
+
+// ------------------ Line Chart S ----------------------------- 
+
+    var options = {
+      chart: {
+        height: 350,
+        type: 'area',
+        // stacked: false,
+        events: {
+          selection: function(chart, e) {
+            console.log(new Date(e.xaxis.min) )
+          }
+        },
+
+      },
+      colors: ['#0866C6', '#00b297', '#e83e8c', '#f39c12'],
+      dataLabels: {
+          enabled: false
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+
+      series: [
+      	{% for cyy in currency_list %} 
+			
+			{
+			  name: '{{cyy}}',
+			  data: [
+			  {% for result in yearDataPayment %}
+			{% if cyy == "USD"%}
+	 			{   y: {{yearDataPayment|get_item_currency_usd:result}},x:'{{result}}' },
+				{% endif %}
+				{% if cyy == "AUD"%}
+				{  y: {{yearDataPayment|get_item_currency_aud:result}},x:'{{result}}' },
+			{% endif %}
+				{% if cyy == "GBP"%}
+				{  y: {{yearDataPayment|get_item_currency_gbp:result}},x:'{{result}}' },
+				{% endif %}
+				{% if cyy == "EUR"%}
+	 			{  y: {{yearDataPayment|get_item_currency_eur:result}},x:'{{result}}' },
+	 			{% endif %}
+	 		{% endfor %}
+			  ]
+			},
+			
+        {% endfor %}
+      ],
+      fill: {
+        type: 'gradient',
+        gradient: {
+          opacityFrom: 0.6,
+          opacityTo: 0.8,
+        }
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'left'
+      },
+      xaxis: {
+        type: 'datetime'
+      },
+    }
+
+    var chart = new ApexCharts(
+      document.querySelector("#incomeLineChartPayment"),
+      options
+    );
+
+    chart.render();
+
+
+
+
+
+  //------------Line Chart Subscribers---------------
+
+
+  // var options = {
+  //     chart: {
+  //       height: 450,
+  //       type: 'area',
+  //       // stacked: false,
+  //       events: {
+  //         selection: function(chart, e) {
+  //           console.log(new Date(e.xaxis.min) )
+  //         }
+  //       },
+
+  //     },
+  //     colors: ['#0866C6', '#00b297', '#e83e8c', '#f39c12'],
+  //     dataLabels: {
+  //         enabled: false
+  //     },
+  //     stroke: {
+  //       curve: 'smooth'
+  //     },
+
+  //     series: [
+
+	// 		  name: '{{sub}}',
+	// 		  data: [
+
+	//  		    	{ x:'{{result}}' , y: {{sub}} },
+	// 		  ]
+  //     ],
+  //     fill: {
+  //       type: 'gradient',
+  //       gradient: {
+  //         opacityFrom: 0.6,
+  //         opacityTo: 0.8,
+  //       }
+  //     },
+  //     legend: {
+  //       position: 'top',
+  //       horizontalAlign: 'left'
+  //     },
+  //     xaxis: {
+  //       type: 'datetime'
+  //     },
+  //   }
+
+  //   var chart = new ApexCharts(
+  //     document.querySelector("#subscriberChart"),
+  //     options
+  //   );
+
+  //   chart.render();
+
+
+
+//----------------------Subscriber Line Chart------------------------
+
+
+
+
+  var ctx = document.getElementById('mySubscriberChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: {{month_arr|safe }},
+          datasets: [{
+              label: '# of Subscribers',
+              data: {{sub_month_arr|safe}},
+              backgroundColor: [
+                  'rgba(255, 0, 0, 0.2)',
+                  'rgba(255, 0, 0, 0.2)',
+                  'rgba(255, 0, 0, 0.2)',
+                  'rgba(255, 0, 0, 0.2)',
+                  'rgba(255, 0, 0, 0.2)',
+                  'rgba(255, 0, 0, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255,0,0, 1)',
+                  'rgba(255,0,0, 1)',
+                  'rgba(255,0,0, 1)',
+                  'rgba(255,0,0, 1)',
+                  'rgba(255,0,0, 1)',
+                  'rgba(255,0,0, 1)'
+              ],
+              borderWidth: 2
+          },
+          {
+              label: '# of Models',
+              data: {{model_month_arr|safe}},
+              backgroundColor: [
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(54, 162, 235, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(54, 162, 235, 1)'
+              ],
+              borderWidth: 2
+          }
+          ]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  });
+
+
+
+
+
+//----------------------Model Line Chart------------------------
+
+
+
+var ctx = document.getElementById('myModelChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      height:1000,
+      data: {
+          labels: {{month_arr|safe }},
+          datasets: [{
+              label: '# of Models',
+              data: {{model_month_arr|safe}},
+              backgroundColor: [
+                  'rgba(255, 0, 0, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255,0,0, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 2
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  });
+    
+
+
+  </script>
+{% endblock %}

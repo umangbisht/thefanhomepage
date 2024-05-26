@@ -1,0 +1,109 @@
+1. add new private fee(post)
+
+url :- http://192.168.1.62:8000/api/v1/add-private-feed
+
+request
+title:test
+description:sfsdfsfssf
+schedule_date:2019-10-10
+image
+
+response
+{
+    "success": false,
+    "data": {
+        "title": "The title field is required.",
+        "description": "The description field is required.",
+        "image": "The image field is required."
+    },
+    "msg": "Validation errors"
+}
+
+{
+    "success": true,
+    "data": [],
+    "msg": "Your profile has been published successfully."
+}
+
+2. update private feed(put)
+url :- http://192.168.1.62:8000/api/v1/edit-private-feed
+
+request
+private_fee_id:1
+title:test
+description:sfsdfsfssf
+schedule_date:2019-10-10
+image
+
+response
+{
+    "success": false,
+    "data": {
+        "title": "The title field is required.",
+        "description": "The description field is required.",
+    },
+    "msg": "Validation errors"
+}
+
+{
+    "success": true,
+    "data": [],
+    "msg": "Your profile has been published successfully."
+}
+
+3. list private feeds
+http://192.168.1.62:8000/api/v1/private-feeds?search_string=test&status=draft&page=3
+{
+    "success": true,
+    "data": [
+        {
+            "title": "test",
+            "image": "http://192.168.1.62:8000/media/uploads/private_feed_imagesscreenshot-from-2019-07-23-16-38-101571290895.png",
+            "description": "sfsdfsfssf",
+            "schedule_date": "2019-10-10T00:00:00Z",
+            "status": "schedule",
+            "created_at": "2019-10-17T05:41:35.817282Z"
+        }
+    ],
+    "msg": "",
+    "PrivateFeedsTotal": 4,
+    "recordPerPge": 1
+}
+
+4. published private feed
+http://192.168.1.62:8000/api/v1/publish-private-feed?private_feed_id=15
+{
+    "success": true,
+    "data": [],
+    "msg": "Your profile has been published successfully."
+}
+
+{
+    "success": false,
+    "data": [],
+    "msg": "Private feed id does not exists."
+}
+
+
+5. deletee private feed
+http://192.168.1.62:8000/api/v1/publish-private-feed?private_feed_id=15
+{
+    "success": true,
+    "data": [],
+    "msg": "Private feed removed successfully."
+}
+{
+    "success": false,
+    "data": [],
+    "msg": "Private feed id does not exists."
+}
+
+{
+    "success": false,
+    "data": [],
+    "msg": "Invalid request"
+}
+
+
+private feed for subscriber
+http://192.168.1.62:8000/api/v1/model-private-feeds?model_id=115

@@ -1,0 +1,57 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Mark Featured Profile
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<!-- <li><a href="{% url 'users.subscribers' %}">Subscribers</a></li> -->
+			<li class="active">	Mark Featured Profile</li>
+		</ol>
+	</section>
+	<section class="content"> 
+		<form method="POST" autocomplete="off" action="{% url 'users.model_featured_image' userFeatImg.id %}" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="row pad">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Featured Image<span class="requireRed"> *</span></label>
+						<div class="mws-form-item">
+							<input type="file"  name="featured_image" id="featured_image" />
+							<input type="hidden" name="ftimg_img_orientation" id="ftimg_img_orientation" />
+							<span class="error-message help-inline">{{ errors.featured_image }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="mws-button-row">
+				<div class="input" >
+					<input type="submit" value="Submit" class="btn btn-success">
+						<a href="{% url 'users.model_featured_image' userFeatImg.id %}" class="btn btn-primary"><i class=\"icon-refresh\"></i> Reset</a>
+						<a href="{% url 'users.models' %}" class="btn btn-info"><i class=\"icon-refresh\"></i> Cancel</a>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+
+<script>
+    var img_orientationExif_ftimg = 0;
+	$(document).on("change", "#featured_image", function () {
+	var image_url	=	$('#featured_image')[0].files[0];
+	EXIF.getData(image_url, function() {
+		$('#ftimg_img_orientation').val(EXIF.getTag(this, "Orientation"));
+		img_orientationExif_ftimg = EXIF.getTag(this, "Orientation");
+		if(img_orientationExif_ftimg == undefined){
+			img_orientationExif_ftimg = 0;
+			$('#ftimg_img_orientation').val(img_orientationExif_ftimg);
+		}
+	});
+	});
+</script>
+{% endblock %}

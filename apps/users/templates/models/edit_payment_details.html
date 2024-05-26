@@ -1,0 +1,191 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Edit Payment Details
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="{% url 'users.models' %}">Models</a></li>
+			<li class="active">	Edit Payment Details</li>
+		</ol>
+	</section>
+	<section class="content"> 
+		<form method="POST" autocomplete="off" action="{% url 'users.edit_model_payment_details' userDetail.id %}" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="row pad">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Payment Method<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="radio" class="payment_method" name="payment_method" value="wire" {% if form.payment_method == 'wire' %} checked="checked" {% endif %} > Wire
+							<input type="radio" class="payment_method" name="payment_method" value="cheque" {% if form.payment_method == 'cheque' %} checked="checked" {% endif %} onclick="enableDisablePlans('cheque','cheque');"> Cheque
+							<input type="radio" class="payment_method" name="payment_method" value="paypal" {% if form.payment_method == 'paypal' %} checked="checked" {% endif %} onclick="enableDisablePlans('paypal','paypal');"> Paypal
+							<!--<input type="radio" name="payment_method" value="cheque"  onclick="enableDisablePlans('snapchat','0');" {% if subcriptionDataSanpchat.is_enabled == 0 %} checked="checked" {% endif %}> Cheque
+							<input type="radio" name="payment_method" value="paypal"  onclick="enableDisablePlans('snapchat','0');" {% if subcriptionDataSanpchat.is_enabled == 0 %} checked="checked" {% endif %}> Paypal-->
+							<span class="error-message help-inline">{{ errors.payment_method }}</span>
+						</div>
+					</div>
+					<div class="payment_details_wire">
+						<div class="form-group">
+							<label class="mws-form-label">Minimum Payout<span class="requireRed"> * </span></label>
+							<div class="mws-form-item">
+								<input type="text" value="{{form.minimum_payout|check_none_value}}" name="minimum_payout" placeholder="Minimum Payout" class="form-control" />
+								<span class="error-message help-inline">{{ errors.minimum_payout }}</span>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="mws-form-label">Bank Name<span class="requireRed"> * </span></label>
+							<div class="mws-form-item">
+								<input type="text" value="{{form.bank_name|check_none_value}}" name="bank_name_wire" placeholder="Bank Name" class="form-control" />
+								<span class="error-message help-inline">{{ errors.bank_name_wire }}</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Bank Address<span class="requireRed"> * </span></label>
+							<div class="mws-form-item">
+								<input type="text" value="{{form.bank_address|check_none_value}}" name="bank_address_wire" placeholder="Bank Address" class="form-control" />
+								<span class="error-message help-inline">{{ errors.bank_address_wire }}</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">SWIFT Code<span class="requireRed"> * </span></label>
+							<div class="mws-form-item">
+								<input type="text" value="{{form.swift_bic|check_none_value}}" name="swift_code_wire" placeholder="SWIFT Code" class="form-control" />
+								<span class="error-message help-inline">{{ errors.swift_code_wire }}</span>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="mws-form-label">Country<span class="requireRed"> * </span></label>
+							<div class="mws-form-item">
+								<input type="text" value="{{form.country|check_none_value}}" name="country" placeholder="Country" class="form-control" />
+								<span class="error-message help-inline">{{ errors.country }}</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">IBAN<span class="requireRed"> * </span></label>
+							<div class="mws-form-item">
+								<input type="text" value="{{form.iban|check_none_value}}" name="iban_wire" placeholder="IBAN" class="form-control" />
+								<span class="error-message help-inline">{{ errors.iban_wire }}</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Pay To<span class="requireRed"> * </span></label>
+							<div class="mws-form-item">
+								<input type="text" value="{{form.pay_to|check_none_value}}" name="pay_to" placeholder="Pay To" class="form-control" />
+								<span class="error-message help-inline">{{ errors.pay_to }}</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="payment_details_cheque">
+						<div class="form-group">
+							<label class="mws-form-label">Minimum Payout<span class="requireRed"> * </span></label>
+							<div class="mws-form-item">
+								<input type="text" value="{{form.minimum_payout|check_none_value}}" name="minimum_payout" placeholder="Minimum Payout" class="form-control" />
+								<span class="error-message help-inline">{{ errors.minimum_payout }}</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Email<span class="requireRed"> * </span></label>
+							<div class="mws-form-item">
+								<input type="text" value="{{form.cheque_email|check_none_value}}" name="cheque_email" placeholder="Email" class="form-control" />
+								<span class="error-message help-inline">{{ errors.cheque_email }}</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Address<span class="requireRed"> * </span></label>
+							<div class="mws-form-item">
+								<input type="text" value="{{form.address|check_none_value}}" name="address" placeholder="Address" class="form-control" />
+								<span class="error-message help-inline">{{ errors.address }}</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="mws-form-label">Name<span class="requireRed"> * </span></label>
+							<div class="mws-form-item">
+								<input type="text" value="{{form.name|check_none_value}}" name="name" placeholder="Name" class="form-control" />
+								<span class="error-message help-inline">{{ errors.name }}</span>
+							</div>
+						</div>
+			
+						<div class="form-group">
+							<label class="mws-form-label">Contact Number<span class="requireRed"> * </span></label>
+							<div class="mws-form-item">
+								<input type="text" value="{{form.contact_number|check_none_value}}" name="contact_number" placeholder="Contact Number" class="form-control" />
+								<span class="error-message help-inline">{{ errors.contact_number }}</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group payment_details_paypal">
+						<label class="mws-form-label">Minimum Payout<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.minimum_payout|check_none_value}}" name="minimum_payout" placeholder="Minimum Payout" class="form-control" />
+							<span class="error-message help-inline">{{ errors.minimum_payout }}</span>
+						</div>
+					</div>
+
+					<div class="form-group payment_details_paypal">
+						<label class="mws-form-label">Paypal Email Address<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.paypal_email|check_none_value}}" name="paypal_email" placeholder="Paypal Email Address" class="form-control" />
+							<span class="error-message help-inline">{{ errors.paypal_email }}</span>
+						</div>
+					</div>
+
+					
+				</div>
+			</div>
+			<div class="mws-button-row">
+				<div class="input" >
+					<input type="submit" value="Submit" class="btn btn-success">
+						<a href="{% url 'users.edit_model_account_details' userDetail.id %}" class="btn btn-primary"><i class=\"icon-refresh\"></i> Reset</a>
+						<a href="{% url 'users.models' %}" class="btn btn-info"><i class=\"icon-refresh\"></i> Cancel</a>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+<script>
+$(document).ready(function(){
+	var value = $('input[name="payment_method"]:checked').val();
+	if(value == "wire"){
+		$('.payment_details_cheque').hide();
+		$('.payment_details_paypal').hide();
+		$('.payment_details_wire').show();
+	}else if(value == "cheque"){
+		$('.payment_details_wire').hide();
+		$('.payment_details_paypal').hide();
+		$('.payment_details_cheque').show();
+	}else{
+		$('.payment_details_wire').hide();
+		$('.payment_details_cheque').hide();
+		$('.payment_details_paypal').show();
+	}
+});
+
+$('.payment_method').click(function(){
+	var value = $('input[name="payment_method"]:checked').val();
+	if(value == "wire"){
+		$('.payment_details_cheque').hide();
+		$('.payment_details_paypal').hide();
+		$('.payment_details_wire').show();
+	}else if(value == "cheque"){
+		$('.payment_details_wire').hide();
+		$('.payment_details_paypal').hide();
+		$('.payment_details_cheque').show();
+	}else{
+		$('.payment_details_wire').hide();
+		$('.payment_details_cheque').hide();
+		$('.payment_details_paypal').show();
+	}
+});
+
+</script>
+{% endblock %}

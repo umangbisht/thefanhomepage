@@ -1,0 +1,114 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Add New Setting
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="{% url 'settings.index' %}">Settings</a></li>
+			<li class="active">	Add New Setting</li>
+		</ol>
+	</section>
+	<section class="content"> 
+		<form method="POST" autocomplete="off" action="{% url 'settings.add' %}" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="row pad">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Name<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.title}}" name="title" placeholder="Title" class="form-control" />
+							<span class="error-message help-inline">{{ errors.title }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Key<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.key}}" name="key" placeholder="key" class="form-control" />
+							<span class="error-message help-inline">{{ errors.key }}</span>
+							e.g, 'Site.title'
+						</div>
+					</div> 
+					<div class="form-group">
+						<label class="mws-form-label">Input Type<span class="requireRed"> * </span></label>
+						<div class="mws-form-item" >
+							<select name="input_type" class="form-control input_type" >
+								<option  value="">Select Input Type</option>
+								<option  value="text" {% if form.input_type == 'text' %} selected="selected" {% endif %}>Text</option>
+								<option  value="textarea" {% if form.input_type == 'textarea' %} selected="selected" {% endif %}>Textarea</option>
+								<option  value="checkbox" {% if form.input_type == 'checkbox' %} selected="selected" {% endif %}>Checkbox</option>
+								<option  value="file" {% if form.input_type == 'file' %} selected="selected" {% endif %}>File</option>
+							</select>
+							<span class="error-message help-inline">{{ errors.input_type }}</span>
+						</div>
+					</div> 
+					<div class="form-group input_type_text">
+						<label class="mws-form-label">Value<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<textarea class="form-control description"  id="value_text" rows="6" name="value">{{ form.value }}</textarea>
+							<span class="error-message help-inline">{{ errors.value}}</span>
+						</div>
+					</div>
+					<div class="form-group input_type_file" style="display:none">
+						<label class="mws-form-label">Attchment<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="file"  id="value_file" name="attchment" placeholder="value"  />
+							<span class="error-message help-inline">{{ errors.attchment}}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Editable<span class="requireRed">  </span></label>
+						<div class="mws-form-item">
+							<input type="checkbox" name="editable" value="{{form.editable}}">
+						</div>
+					</div>
+					<div class="mws-button-row">
+						<div class="input" >
+							<input type="submit" value="Submit" class="btn btn-success">
+							<a href="{% url 'settings.add' %}" class="btn btn-primary"><i class=\"icon-refresh\"></i> Reset</a>
+							<a href="{% url 'settings.index' %}" class="btn btn-info"><i class=\"icon-refresh\"></i> Cancel</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+  
+<script>
+	$(function(){
+		showImageDiv();
+		$(".input_type").change(function(){
+			showImageDiv();
+		});
+	});
+
+	function showImageDiv(){
+		checked_value	=	$('.input_type option:selected').val();
+		if(checked_value == "file"){
+			$('#value_text').prop('disabled',true);
+			$('#value_file').prop('disabled',false);
+			$(".input_type_file").show();
+			$(".input_type_text").hide();
+		}else if(checked_value == "checkbox" || checked_value == "radio" ){
+			$('#value_file').prop('disabled',false);
+			$('#value_text').prop('disabled',false);
+			$(".input_type_file").hide();
+			$(".input_type_text").hide();	
+		}else{
+			$('#value_file').prop('disabled',true);
+			$('#value_text').prop('disabled',false);
+			$(".input_type_file").hide();
+			$(".input_type_text").show();			
+		}
+	}
+	
+	
+ 
+</script>
+  
+{% endblock %}

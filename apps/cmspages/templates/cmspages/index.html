@@ -1,0 +1,92 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Manage Cms Pages
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li class="active">Manage Cms Pages</li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="row">
+			<form autocomplete="off" action="{% url 'cmspages.index' %}">
+				<div class="col-md-12 col-sm-12">
+					<div class="col-md-3 col-sm-3">
+						<div class="form-group">  
+							<input type="text" value="{{searchingVariables.page_name}}" name="page_name" class="form-control" placeholder="Search by Page Name" />
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-2">
+						<div class="form-group">  
+							<input type="text" value="{{searchingVariables.page_title}}" name="page_title" class="form-control" placeholder="Search by Page Title" />
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-2">
+						<button class="btn btn-primary" style="margin:0;"><i class='fa fa-search '></i> Search</button>
+						<a href="{% url 'cmspages.index' %}"  class="btn btn-primary" style="margin:0;"><i class='fa fa-refresh '></i> Reset</a>
+					</div>
+					<div class="col-md-5 col-sm-5">
+						<div class="form-group  pull-right">  
+							<!--<a href="{% url 'cmspages.add'  %}" class="btn btn-success btn-small align" style="margin:0;">Add New Cms Page</a>-->
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="box">
+			<div class="box-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th width="20%">
+								<a href="?page={{ page }}&order_by=page_name&direction={% if direction == 'ASC' and order_by == 'page_name' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Page Name</a>
+							</th>
+							<th width="20%">
+								<a href="?page={{ page }}&order_by=page_title&direction={% if direction == 'ASC' and order_by == 'page_title' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Page Title</a>
+							</th>
+							<th>
+								<a href="?page={{ page }}&order_by=description&direction={% if direction == 'ASC' and order_by == 'description' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Description</a>
+							</th>
+							<th width="12%">
+								Action
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% if results %}
+							{% for result in results %}
+								<tr>
+									<td>
+										{{result.page_name}}
+									</td>
+									<td>
+										{{result.page_title}}
+									</td>
+									<td>
+										{{result.description|striptags|truncatechars:150|safe}}
+									</td>
+									<td>
+										<a href="{% url 'cmspages.edit' result.id  %}" class="btn btn-success" title="Edit"> 
+											<span class="fa fa-pencil"></span>
+										</a>
+									</td>
+								</tr>
+							{% endfor %}
+						{% else %}
+							<tr>
+								<td colspan="7" style="text-align:center">Record not found.</td>
+							</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+			{% include "admin/paginations.html" %}
+		</div> 
+	</section> 
+</div>
+{% endblock %}

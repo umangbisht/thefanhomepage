@@ -1,0 +1,124 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Scheduled Newsletter Email Status
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="{% url 'newsletters.index' %}"> Newsletter Templates</a></li>
+			<li><a href="{% url 'newsletters.scheduled_newsletter' %}"> Scheduled Newsletters</a></li>
+			<li class="active">Scheduled Newsletter Email Status</li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="row">
+			<form autocomplete="off" action="{% url 'newsletters.statusScheduledEmail' id %}">
+				<div class="col-md-3 col-sm-3">
+					<div class="form-group">
+					<input type="text" value="{{searchingVariables.email}}" name="email" class="form-control" placeholder="Email" />
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<button class="btn btn-primary" style="margin:0;"><i class='fa fa-search '></i> Search</button>
+					<a href="{% url 'newsletters.statusScheduledEmail' id %}"  class="btn btn-primary" style="margin:0;"><i class='fa fa-refresh '></i> Reset</a>
+				</div>
+				
+			</form>
+		</div>
+		<div class="box">
+			<div class="box-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th width="25%">
+								<a href="?page={{ page }}&order_by=email&direction={% if direction == 'ASC' and order_by == 'email' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">EMAIL</a>
+							</th>
+
+							<th width="25%">
+								<a href="?page={{ page }}&order_by=mail_on&direction={% if direction == 'ASC' and order_by == 'mail_on' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Mail Sent On</a>
+							</th>
+
+							<th width="25%">
+								<a href="?page={{ page }}&order_by=status&direction={% if direction == 'ASC' and order_by == 'status' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">STATUS</a>
+                            </th>
+                            
+                            <th width="25%">
+								ACTION
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% if results %}
+							{% for result in results %}
+								<tr>
+									<td>
+										{{result.email}}
+									</td>
+
+									<td>
+										{{result.mail_on|date:datetimeFormat}}
+									</td>
+
+									<td>
+                                        {% if result.status == 1 %}
+                                        <span class="label label-success" > Sent</span>
+                                        {% else %}
+                                        <span class="label label-danger" > Pending</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'newsletters.delete_status_email_scheduled_newsletter' id result.id %}" class="btn btn-danger delete_any_item" title="Delete">
+											<span class="fa fa-trash-o"></span>
+										</a>
+                                    </td>
+
+								</tr>
+							{% endfor %}
+						{% else %}
+							<tr>
+								<td colspan="5" style="text-align:center">Record not found.</td>
+							</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+			{% include "admin/paginations.html" %}
+		</div>
+	</section>
+</div>
+
+<script>
+		$(document).ready(function(){
+			$(document).on('click', '.status_change', function(e){
+				e.stopImmediatePropagation();
+				url = $(this).attr('href');
+				bootbox.confirm("Are you sure want to change status?",
+				function(result){
+					if(result){
+						window.location.replace(url);
+					}
+				});
+				e.preventDefault();
+			});
+			$(document).on('click', '.delete_any_item', function(e){
+				e.stopImmediatePropagation();
+				url = $(this).attr('href');
+				bootbox.confirm("Are you sure want to delete this ?",
+				function(result){
+					if(result){
+						window.location.replace(url);
+					}
+				});
+				e.preventDefault();
+			});
+			$('.date-input').datetimepicker({
+				format:'YYYY-MM-DD',
+			});
+		});
+	</script>
+{% endblock %}
+

@@ -1,0 +1,123 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Email Logs
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li class="active">Email Logs</li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="row">
+			<form autocomplete="off" action="{% url 'emaillogs.index' %}">
+				<div class="col-md-3 col-sm-3">
+					<div class="form-group">
+					<input type="text" value="{{searchingVariables.email_to}}" name="email_to" class="form-control" placeholder=" Email To" />
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<div class="form-group">
+					<input type="text" value="{{searchingVariables.subject}}" name="subject" class="form-control" placeholder="Subject" />
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<button class="btn btn-primary" style="margin:0;"><i class='fa fa-search '></i> Search</button>
+					<a href="{% url 'emaillogs.index' %}"  class="btn btn-primary" style="margin:0;"><i class='fa fa-refresh '></i> Reset</a>
+				</div>
+			</form>
+		</div>
+		<div class="box">
+			<div class="box-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th width="12%">
+								<a href="?page={{ page }}&order_by=email_to&direction={% if direction == 'ASC' and order_by == 'email_to' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Email To</a>
+							</th>
+							<th width="12%">
+								<a href="?page={{ page }}&order_by=email_from&direction={% if direction == 'ASC' and order_by == 'email_from' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Email From</a>
+							</th>
+							<th width="12%">
+								<a href="?page={{ page }}&order_by=subject&direction={% if direction == 'ASC' and order_by == 'subject' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Subject</a>
+							</th>
+							<th width="12%">
+								<a href="?page={{ page }}&order_by=created_at&direction={% if direction == 'ASC' and order_by == 'created_at' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Mail Sent On</a>
+							</th>
+							<th width="15%">
+								Action
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% if results %}
+							{% for result in results %}
+								<tr>
+									<td>
+										{{result.email_to}}
+									</td>
+									<td>
+										{{result.email_from}}
+									</td>
+									<td>
+										{{result.subject}}
+									</td>
+									<td>
+										{{result.created_at|date:datetimeFormat}}
+									</td>
+									<td>
+										<a class="btn btn-info"  title="View Log Detail" href="javascript:void(0);"  data-toggle="modal" data-target="#myModal{{result.id}}" ><span class="fa fa-eye"></span></a>
+										<div id="myModal{{result.id}}" class="modal fade" role="dialog">
+											<div class="modal-dialog modal-lg">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal">&times;</button>
+														<h4 class="modal-title">Email Detail</h4>
+													</div>
+													<div class="modal-body">
+														<table class="table table-bordered table-responsive">
+															<tbody>
+																<tr>
+																	<th width="13%">Email To: </th>
+																	<td>{{result.email_to}}</td>
+																</tr>
+																<tr>
+																	<th>Email From: </th>
+																	<td>{{result.email_from}}</td>
+																</tr>
+																<tr>
+																	<th>Email Subject: </th>
+																	<td>{{result.subject}}</td>
+																</tr>
+																<tr>
+																	<th>Email Message: </th>
+																	<td>{{result.message|safe}}</td>
+																</tr>
+															</tbody>		
+														</table>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</td>
+							{% endfor %}
+						{% else %}
+							<tr>
+								<td colspan="6" style="text-align:center">Record not found.</td>
+							</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+			{% include "admin/paginations.html" %}
+		</div>
+	</section>
+	</div>
+{% endblock %}
+

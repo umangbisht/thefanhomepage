@@ -1,0 +1,149 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Manage Blocks
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li class="active">Manage Blocks</li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="row">
+			<form autocomplete="off" action="{% url 'blocks.index' %}">
+				<div class="col-md-12 col-sm-12">
+					<div class="col-md-2 col-sm-2">
+						<div class="form-group">  
+							<input type="text" value="{{searchingVariables.page_name}}" name="page_name" class="form-control" placeholder="Search by Page Name" />
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-3">
+						<div class="form-group">  
+							<input type="text" value="{{searchingVariables.block_name}}" name="block_name" class="form-control" placeholder="Search by Block Name" size="5" />
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-2">
+						<button class="btn btn-primary" style="margin:0;"><i class='fa fa-search '></i> Search</button>
+						<a href="{% url 'blocks.index' %}"  class="btn btn-primary" style="margin:0;"><i class='fa fa-refresh '></i> Reset</a>
+					</div>
+					<div class="col-md-5 col-sm-5">
+						<div class="form-group  pull-right">  
+							<!--<a href="{% url 'blocks.add'  %}" class="btn btn-success btn-small align" style="margin:0;">Add New Block</a>-->
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="box">
+			<div class="box-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th width="15%">
+								<a href="?page={{ page }}&order_by=page_name&direction={% if direction == 'ASC' and order_by == 'page_name' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Page Name</a>
+							</th>
+							<th width="15%">
+								<a href="?page={{ page }}&order_by=block_name&direction={% if direction == 'ASC' and order_by == 'block_name' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Block Name</a>
+							</th>
+							<th width="30%">
+								<a href="?page={{ page }}&order_by=description&direction={% if direction == 'ASC' and order_by == 'description' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Description</a>
+							</th>
+							<th width="8%">
+								<a href="?page={{ page }}&order_by=block_order&direction={% if direction == 'ASC' and order_by == 'block_order' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Block Order</a>
+							</th>
+							<th width="10%">
+								<a href="?page={{ page }}&order_by=is_active&direction={% if direction == 'ASC' and order_by == 'is_active' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Status</a>
+							</th>
+							<th width="12%">
+								Image
+							</th>
+							<th width="12%">
+								Action
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% if results %}
+							{% for result in results %}
+								<tr>
+									<td>
+										{{result.page_name}}
+									</td>
+									<td>
+										{{result.block_name}}
+									</td>
+									<td>
+										{{result.description|striptags|truncatechars:100|safe}}
+									</td>
+									<td>
+										{{result.block_order}}
+									</td>
+									<td>
+										{% if result.is_active == 1 %}
+											<span class="label label-success" >Active</span>
+										{% else %}
+											<span class="label label-danger" >Deactive</span>
+										{% endif %}
+									</td>
+									<td>
+										{% if result.image != "" %}
+											<a class="fancybox-buttons" data-fancybox-group="button" href="{{settings.BLOCK_IMAGE_URL}}{{result.image}}">
+												<img height="100" width="100" src="{{settings.BLOCK_IMAGE_URL}}{{result.image}}"/>
+											</a>
+										{% endif %}
+									</td>
+									<td>
+										{% if result.is_active == 1 %}
+											<a  title="Click To Deactivate" href="{% url 'blocks.status' result.id 0 %}" class="btn btn-danger btn-small status_change" ><span class="fa fa-ban"></span></a>
+										{% else %}
+											<a  title="Click To Active" href="{% url 'blocks.status' result.id  1 %}" class="btn btn-primary btn-small status_change"><span class="fa fa-check"></span></a>
+										{% endif %}
+
+										<a href="{% url 'blocks.edit' result.id  %}" class="btn btn-success" title="Edit"> 
+											<span class="fa fa-pencil"></span>
+										</a>
+									</td>
+								</tr>
+							{% endfor %}
+						{% else %}
+							<tr>
+								<td colspan="7" style="text-align:center">Record not found.</td>
+							</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+			{% include "admin/paginations.html" %}
+		</div> 
+	</section> 
+</div>
+<link rel="stylesheet" href="{%  static 'admin/css/jquery.fancybox.css' %}">
+<script src="{%  static 'admin/js/jquery.fancybox.js' %}"></script>
+
+<script>
+	$(function(){
+		$('.fancybox').fancybox();
+		$('.fancybox-buttons').fancybox({
+			openEffect  : 'none',
+			closeEffect : 'none',
+			prevEffect : 'none',
+			nextEffect : 'none',
+		});
+	});
+	$(document).on('click', '.status_change', function(e){
+			e.stopImmediatePropagation();
+			url = $(this).attr('href');
+			bootbox.confirm("Are you sure want to change status?",
+			function(result){
+				if(result){
+					window.location.replace(url);
+				}
+			});
+			e.preventDefault();
+		});
+</script>
+{% endblock %}

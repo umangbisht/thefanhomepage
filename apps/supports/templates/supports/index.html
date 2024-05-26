@@ -1,0 +1,89 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Support
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li class="active">Support</li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="row">
+			<form autocomplete="off" action="{% url 'supports.index' %}">
+				<div class="col-md-3 col-sm-3">
+					<div class="form-group">
+					<input type="text" value="{{searchingVariables.name}}" name="name" class="form-control" placeholder=" Name" />
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<div class="form-group">
+					<input type="text" value="{{searchingVariables.email}}" name="email" class="form-control" placeholder=" Email" />
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<button class="btn btn-primary" style="margin:0;"><i class='fa fa-search '></i> Search</button>
+					<a href="{% url 'supports.index' %}"  class="btn btn-primary" style="margin:0;"><i class='fa fa-refresh '></i> Reset</a>
+				</div>
+			</form>
+		</div>
+		<div class="box">
+			<div class="box-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th width="12%">
+								<a href="?page={{ page }}&order_by=name&direction={% if direction == 'ASC' and order_by == 'name' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Name</a>
+							</th>
+							<th width="12%">
+								<a href="?page={{ page }}&order_by=email&direction={% if direction == 'ASC' and order_by == 'email' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Email</a>
+							</th>
+							<th width="12%">
+								<a href="?page={{ page }}&order_by=phone_number&direction={% if direction == 'ASC' and order_by == 'phone_number' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Phone Number</a>
+							</th>
+							<th width="15%">
+								<a href="?page={{ page }}&order_by=created_at&direction={% if direction == 'ASC' and order_by == 'created_at' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Request On</a>
+							</th>
+							<th>
+								<a href="?page={{ page }}&order_by=message&direction={% if direction == 'ASC' and order_by == 'message' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Message</a>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% if results %}
+							{% for result in results %}
+								<tr>
+									<td>
+										{{result.name}}
+									</td>
+									<td>
+										{{result.email}}
+									</td>
+									<td>
+										{{result.phone_number}}
+									</td>
+									<td>
+										{{result.created_at|date:datetimeFormat}}
+									</td>
+									<td>
+										{{result.message}}
+									</td>
+									
+							{% endfor %}
+						{% else %}
+							<tr>
+								<td colspan="6" style="text-align:center">Record not found.</td>
+							</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+			{% include "admin/paginations.html" %}
+		</div>
+	</section>
+	</div>
+{% endblock %}
+

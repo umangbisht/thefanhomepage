@@ -1,0 +1,132 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Edit Email Template
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="{% url 'emailtemplates.index' %}">Email Templates</a></li>
+			<li class="active">	Edit Email Template</li>
+		</ol>
+	</section>
+	<section class="content"> 
+		<form method="POST" autocomplete="off" action="{% url 'emailtemplates.edit' emailDetail.id %}" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="row pad">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Name<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.name}}" name="name" placeholder="Name" class="form-control" />
+							<span class="error-message help-inline">{{ errors.name }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Subject<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.subject}}" name="subject" placeholder="subject" class="form-control" />
+							<span class="error-message help-inline">{{ errors.subject }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Action<span class="requireRed"> * </span></label>
+							<div class="mws-form-item">
+								
+							<select class="form-control" onchange= "constant()" name="action_id" id="action" disabled>
+								<option value=""> Select Action</option>
+								{% for result in email_actions %}
+									<option value="{{ result.id}}" {% if result.action == form.action %} selected="selected" {% endif %}>{{ result.action }}</option>
+								{% endfor %}
+							</select>
+							<span class="error-message help-inline">{{ errors.action_id }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label" >Constants<span class="requireRed">  </span></label>
+						<div class="mws-form-item">
+							<div class="row">
+								<div class="col-md-8">
+									<select class="form-control" name="option" id="constants">
+										<option value="">Select Constant</option>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<a onclick = "return InsertHTML()" href="javascript:void(0)" class="btn btn-success btn-small align" style="margin:0;">Insert Variable</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Email Body<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<textarea class="form-control description"  id="emailbody" rows="6" name="body">{{ form.body}}</textarea>
+								<span class="error-message help-inline">{{ errors.body}}</span>
+						</div>
+					</div>
+					<script>	
+						CKEDITOR.replace("emailbody",
+						{
+						height: 300,
+						filebrowserImageWindowWidth : '640',
+						filebrowserImageWindowHeight : '480',
+						enterMode : CKEDITOR.ENTER_BR
+						});
+					</script>
+				</div>
+			</div>
+			<div class="mws-button-row">
+				<div class="input" >
+					<input type="submit" value="Submit" class="btn btn-success">
+					<a href="{% url 'emailtemplates.edit' emailDetail.id %}" class="btn btn-primary"><i class=\"icon-refresh\"></i> Reset</a>
+					<a href="{% url 'emailtemplates.index' %}" class="btn btn-info"><i class=\"icon-refresh\"></i> Cancel</a>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+<script>
+	function InsertHTML() {
+		var strUser = document.getElementById("constants").value;
+		if(strUser != ''){
+			var newStr = '{'+strUser+'}';
+			var oEditor = CKEDITOR.instances["emailbody"] ;
+			oEditor.insertHtml(newStr) ;	
+		}
+    }
+    $(document).ready(function(){
+		constant();
+	});
+	function constant() {
+		var action = $("#action").val();
+		if(action !="" ){
+			$.ajax({
+				url: '{% url "get_constant" %}',
+				data: { action: action},
+				dataType: 'json',
+				
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				},
+				success: function (data) {
+					if (data.success1) {
+						$('#constants').html("<option value=''>Select Constant</option>"); 
+						$.each(data.options, function(index, value) {
+							$('#constants').append($("<option></option>")
+							.attr("value",value)
+							.text(value)); 
+						});
+					}else{
+						alert('There is an error. Please try again letter.')  
+					}
+				}
+			});
+		}else{
+			 $('#constants').html("<option value=''>Select Constant</option>"); 
+		} 
+	}
+</script>
+{% endblock %}

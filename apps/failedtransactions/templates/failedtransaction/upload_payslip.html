@@ -1,0 +1,56 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Upload Pay Slip
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<!-- <li><a href="{% url 'users.subscribers' %}">Subscribers</a></li> -->
+			<li class="active">	Upload Pay Slip </li>
+		</ol>
+	</section>
+	<section class="content"> 
+		<form method="POST" autocomplete="off" action="{% url 'payout.payslip.upload' userpaySlip.id %}" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="row pad">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Pay Slip<span class="requireRed"> *</span></label>
+						<div class="mws-form-item">
+							<input type="file"  name="payslip_img" id="featured_image" />
+							<span class="error-message help-inline">{{ errors.payslip_img }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="mws-button-row">
+				<div class="input" >
+					<input type="submit" value="Submit" class="btn btn-success">
+						<a href="{% url 'payout.payslip.upload' userpaySlip.id %}" class="btn btn-primary"><i class=\"icon-refresh\"></i> Reset</a>
+						<a href="{% url 'payout.listing' %}" class="btn btn-info"><i class=\"icon-refresh\"></i> Cancel</a>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+
+<!-- <script>
+    var img_orientationExif_ftimg = 0;
+	$(document).on("change", "#featured_image", function () {
+	var image_url	=	$('#featured_image')[0].files[0];
+	EXIF.getData(image_url, function() {
+		$('#ftimg_img_orientation').val(EXIF.getTag(this, "Orientation"));
+		img_orientationExif_ftimg = EXIF.getTag(this, "Orientation");
+		if(img_orientationExif_ftimg == undefined){
+			img_orientationExif_ftimg = 0;
+			$('#ftimg_img_orientation').val(img_orientationExif_ftimg);
+		}
+	});
+	});
+</script> -->
+{% endblock %}

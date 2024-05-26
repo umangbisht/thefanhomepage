@@ -1,0 +1,59 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Edit {{dropdown_type_text|title}}
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="{% url 'dropdown-managers.index' dropdown_type  %}">{{dropdown_type_text|title}}</a></li>
+			<li class="active">Edit {{dropdown_type_text|title}}</li>
+		</ol>
+	</section>
+	<section class="content"> 
+		{% if languages %}
+			<div class="wizard-nav wizard-nav-horizontal">
+				<ul class="nav nav-tabs">
+					{% for language in languages %}
+						<li class="{% if language.lang_code == 'en' %}active{% endif %}">
+							<a data-toggle="tab" href="#{{language.lang_code}}div">
+								{{language.title}}
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+		<form method="POST" autocomplete="off" action="{% url 'dropdown-managers.edit' dropdown_type DropDownManager.id %}" enctype="multipart/form-data">	
+			{% csrf_token %}
+			<div class="mws-panel-body no-padding tab-content"> 
+				{% for language in languages %}
+					<div id="{{language.lang_code}}div" class="tab-pane {% if language.lang_code == 'en' %}active{% endif %}">
+						<div class="row pad">
+							<div class="col-md-6">	
+								<div class="form-group">
+									<label class="mws-form-label">{{dropdown_type_text|title}} Name<span class="requireRed"> {% if language.lang_code == 'en' %}*{% endif %} </span></label>
+									<div class="mws-form-item">
+										<input type="text" value="{{dropDownLanguageDetails|get_item:language.lang_code }}" name="data[{{language.lang_code}}][name]" placeholder="{{dropdown_type_text|title}}" class="form-control" />
+										<span class="error-message help-inline">{% if language.lang_code == 'en' %}{{ errors.name }}{% endif %}</span>
+									</div>
+								</div>
+							</div>
+						</div> 
+					</div>
+				{% endfor %}
+			</div>
+			<div class="mws-button-row">
+				<div class="input" >
+					<input type="submit" value="Submit" class="btn btn-success">
+					<a href="" class="btn btn-primary"><i class=\"icon-refresh\"></i> Reset</a>
+					<a href="{% url 'dropdown-managers.index' dropdown_type %}" class="btn btn-info"><i class=\"icon-refresh\"></i> Cancel</a>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+{% endblock %}

@@ -1,0 +1,81 @@
+
+
+<div class="row pad subscription_row" id="subscription_row_{{sub_type}}_{{section}}">
+	<hr></hr>
+	<div class="col-md-6">
+		<div class="form-group">  
+			<label class="mws-form-label">Offer Name<span class="requireRed"></span></label> 
+			<div class="mws-form-item">
+				<input type="text" name="subscription[{{sub_type}}][plans][{{section}}][offer_name]" value="" class="form-control" placeholder="Offer Name">
+			</div>
+		
+			<label class="mws-form-label">Offer Type<span class="requireRed"> </span></label>  
+			<select  name="subscription[{{sub_type}}][plans][{{section}}][plan_type]" class="form-control plan_type_{{sub_type}}_{{section}}" onchange="changeOfferType('{{sub_type}}','{{section}}');">
+				<option value="recurring">Recurring Offer</option>
+				<option value="one_time">One Time Offer</option>
+			</select>
+			<div class="recurring_options_{{sub_type}}_{{section}}">
+				<label class="mws-form-label">Offer Period<span class="requireRed"> </span></label> 
+				<div class="mws-form-item">
+					<input type="number" name="subscription[{{sub_type}}][plans][{{section}}][offer_period_time]" value="" class="form-control" placeholder="Offer Period">
+				</div>
+				
+				<label class="mws-form-label">Offer Period Type<span class="requireRed"></span></label> 
+				<div class="mws-form-item">
+					<select name="subscription[{{sub_type}}][plans][{{section}}][offer_period_type]" class="form-control">
+						<option value="week">Week</option>
+						<option value="month">Month</option>
+						<option value="year">Year</option>
+					</select>
+				</div>
+			</div>
+			<label class="mws-form-label">Price<span class="requireRed"></span></label> 
+			<div class="mws-form-item">
+				<input type="text" name="subscription[{{sub_type}}][plans][{{section}}][price]" value="" class="form-control" placeholder="Price">
+			</div>
+			
+			<label class="mws-form-label">Description<span class="requireRed"></span></label> 
+			<div class="mws-form-item">
+				<input type="text" name="subscription[{{sub_type}}][plans][{{section}}][description]" value="" class="form-control" placeholder="Description">
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<label class="mws-form-label">Discount<span class="requireRed"></span></label> 
+			<div class="mws-form-item">
+				<input type="checkbox" name="subscription[{{sub_type}}][plans][{{section}}][is_discount_enabled]" onclick="enableDisableDiscount('{{sub_type}}','{{section}}');" class="is_discount_enabled_{{sub_type}}_{{section}}">
+			</div>
+			<span class="discount_amount_{{sub_type}}_{{section}}" style="display:none;">
+				<label class="mws-form-label">Discount Percentage<span class="requireRed"></span></label> 
+				<div class="mws-form-item">
+					<input type="text" name="subscription[{{sub_type}}][plans][{{section}}][discount]" value="" class="form-control" placeholder="Discount Percentage">
+				</div>
+			</span>
+			<span class="recurring_options_{{sub_type}}_{{section}}">
+				<label class="mws-form-label">Permanent<span class="requireRed"></span></label> 
+				<div class="mws-form-item">
+					<input type="checkbox" name="subscription[{{sub_type}}][plans][{{section}}][is_permanent_discount]" onclick="enableDisablePermanentDiscount('{{sub_type}}','{{section}}');" class="permanent_dis_{{sub_type}}_{{section}}">
+				</div>
+				<span class="date_range_{{sub_type}}_{{section}}">
+					<label class="mws-form-label">Discount Start<span class="requireRed"></span></label> 
+					<div class="mws-form-item">
+						<input type="text" name="subscription[{{sub_type}}][plans][{{section}}][from_discount_date]" value="" class="form-control datefield" placeholder="Discount Start">
+					</div>
+					
+					<label class="mws-form-label">Discount end<span class="requireRed"></span></label> 
+					<div class="mws-form-item">
+						<input type="text" name="subscription[{{sub_type}}][plans][{{section}}][to_discount_date]" value="" class="form-control datefield" placeholder="Discount end" >
+					</div>
+				</span>
+				<label class="mws-form-label">Apply To Rebill<span class="requireRed"></span></label> 
+				<div class="mws-form-item">
+					<input type="checkbox" name="subscription[{{sub_type}}][plans][{{section}}][is_apply_to_rebills]" >
+				</div>
+			</span>
+		</div>
+	</div>
+	<div class="col-md-12">
+	<a href="javascript:void(0);" class="btn btn-primary remove"><i class="fa fa-minus" aria-hidden="true"></i></a>
+	</div>
+</div>

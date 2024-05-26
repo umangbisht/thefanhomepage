@@ -1,0 +1,21 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Common
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li class="active">Common</li>
+		</ol>
+	</section>
+	<section class="content"> 
+		<h1>Common App</h1>
+	</section>
+</div>
+
+{% endblock %}

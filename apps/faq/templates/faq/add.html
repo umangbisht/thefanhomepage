@@ -1,0 +1,105 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Add New Faq
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="{% url 'faq.index'  %}">Faq</a></li>
+			<li class="active">Add New Faq</li>
+		</ol>
+	</section>
+	<section class="content"> 
+		<form method="POST" autocomplete="off" action="{% url 'faq.add' %}" enctype="multipart/form-data">	
+			<div class="row pad">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Page<span class="requireRed">*</span></label> 
+						<div class="mws-form-item">
+							<select name="pagename" class="form-control">
+								<option value="about">About</option>
+								<option value="makemoney">Make Money</option>
+								<option value="faq">Faq</option>
+								<option value="model_faq">Model Faq</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{% csrf_token %}
+			{% if languages %}
+				<div class="wizard-nav wizard-nav-horizontal">
+					<ul class="nav nav-tabs">
+						{% for language in languages %}
+							<li class="{% if language.lang_code == 'en' %}active{% endif %}">
+								<a data-toggle="tab" href="#{{language.lang_code}}div">
+									{{language.title}}
+								</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+			<div class="mws-panel-body no-padding tab-content"> 
+				{% for language in languages %}
+					<div id="{{language.lang_code}}div" class="tab-pane {% if language.lang_code == 'en' %}active{% endif %}">
+						<div class="row pad">
+							<div class="col-md-6">	
+								<div class="form-group">
+									<label class="mws-form-label">Question<span class="requireRed"> {% if language.lang_code == 'en' %}*{% endif %} </span></label>
+									<div class="mws-form-item">
+										<textarea class="form-control" id="question_{{language.lang_code}}"  name="data[{{language.lang_code}}][question]">{{form.question}}</textarea>
+										<span class="error-message help-inline">{% if language.lang_code == 'en' %}{{ errors.question }}{% endif %}</span>
+									</div>
+									<script>		
+										CKEDITOR.replace("question_{{language.lang_code}}",
+										{
+										height: 300,
+										filebrowserImageWindowWidth : '640',
+										filebrowserImageWindowHeight : '480',
+										extraAllowedContent: 'a span',
+										enterMode : CKEDITOR.ENTER_BR
+										});
+									</script>
+								</div>
+							</div>
+						</div>
+						<div class="row pad">
+							<div class="col-md-6">	
+								<div class="form-group">
+									<label class="mws-form-label">Answer<span class="requireRed"> {% if language.lang_code == 'en' %}*{% endif %} </span></label>
+									<div class="mws-form-item">
+										<textarea class="form-control" id="answer_{{language.lang_code}}"  name="data[{{language.lang_code}}][answer]">{{form.answer}}</textarea>
+										<span class="error-message help-inline">{% if language.lang_code == 'en' %}{{ errors.answer }}{% endif %}</span>
+									</div>
+									<script>		
+										CKEDITOR.replace("answer_{{language.lang_code}}",
+										{
+										height: 300,
+										filebrowserImageWindowWidth : '640',
+										filebrowserImageWindowHeight : '480',
+										extraAllowedContent: 'a span',
+										enterMode : CKEDITOR.ENTER_BR
+										});
+									</script>
+								</div>
+							</div>
+						</div> 
+					</div>
+				{% endfor %}
+			</div>
+			<div class="mws-button-row">
+				<div class="input" >
+					<input type="submit" value="Submit" class="btn btn-success">
+					<a href="" class="btn btn-primary"><i class=\"icon-refresh\"></i> Reset</a>
+					<a href="{% url 'faq.index' %}" class="btn btn-info"><i class=\"icon-refresh\"></i> Cancel</a>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+{% endblock %}

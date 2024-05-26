@@ -1,0 +1,1575 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+{% load site_tags %}
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Edit Model
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="{% url 'users.models' %}">Models</a></li>
+			<li class="active">	Edit Model</li>
+		</ol>
+	</section>
+	<section class="content"> 
+		<form method="POST" id="edit_model_form" autocomplete="off" action="{% url 'users.edit_model' userDetail.id %}" enctype="multipart/form-data">
+			{% csrf_token %}
+			<input type="hidden" value="{{form.id}}" name="model_id"/>
+			<div class="row pad">
+				<!-- Basic info section start-->
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">BASIC INFORMATION</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Email<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.email|check_none_value}}" name="email" placeholder="Email" class="form-control" />
+							<span class="error-message help-inline">{{ errors.email }}</span>
+						</div>
+					</div>
+					<div class="mws-form-row">
+						<div class="mws-form-message info">Please leave blank if you do not want to change password
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Password<span class="requireRed"> </span></label>
+						<div class="mws-form-item">
+							<input type="password" value="" name="password" placeholder="Password" class="form-control" />
+							<span class="error-message help-inline">{{ errors.password }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Confirm Password<span class="requireRed">  </span></label>
+						<div class="mws-form-item">
+							<input type="password" value="" name="confirm_password" placeholder="Confirm Password" class="form-control" />
+							<span class="error-message help-inline">{{ errors.confirm_password }}</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					
+				</div>
+				<!-- Personal Information section start-->
+				
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">PERSONAL INFORMATION</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">First Name<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.first_name|check_none_value}}" name="first_name" placeholder="First Name" class="form-control" />
+							<span class="error-message help-inline">{{ errors.first_name }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Previous First Name<span class="requireRed">  </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.previous_first_name|check_none_value}}" name="previous_first_name" placeholder="Previous First Name" class="form-control" />
+							<span class="error-message help-inline">{{ errors.previous_first_name }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">DOB<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.date_of_birth|check_none_value}}" name="date_of_birth" placeholder="DOB" class="form-control date-of-birth" />
+							<span class="error-message help-inline">{{ errors.date_of_birth }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Country<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<select class="form-control" name="country">
+								
+								<option value="">Select Country</option>
+								{% if countriesArray %}
+									{% for country in countriesArray %}
+									<option value="{{country.id}}" {% if country.id == form.country|convert_to_integer %} selected="selected" {% endif %}>{{country.name}}</option>
+									{% endfor %}
+								{% endif %}
+							</select>
+							<span class="error-message help-inline">{{ errors.country }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Address Line 2<span class="requireRed">  </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.address_line_2|check_none_value}}" name="address_line_2" placeholder="Address Line 2" class="form-control" />
+							<span class="error-message help-inline">{{ errors.address_line_2 }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Postal Code<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.postal_code|check_none_value}}" name="postal_code" placeholder="Postal Code" class="form-control" />
+							<span class="error-message help-inline">{{ errors.postal_code }}</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Last Name<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.last_name|check_none_value}}" name="last_name" placeholder="Last Name" class="form-control" />
+							<span class="error-message help-inline">{{ errors.last_name }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Previous Last Name<span class="requireRed">  </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.previous_last_name|check_none_value}}" name="previous_last_name" placeholder="Previous Last Name" class="form-control" />
+							<span class="error-message help-inline">{{ errors.previous_last_name }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Gender<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="radio" name="gender" value="male" {% if form.gender == "" or form.gender is None or form.gender == 'male' %}checked="checked"{% endif %}> Male
+							<input type="radio" name="gender" value="female" {% if form.gender == 'female'%}checked="checked"{% endif %} > Female
+							
+							<span class="error-message help-inline">{{ errors.gender }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Address Line 1<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.address_line_1|check_none_value}}" name="address_line_1" placeholder="Address Line 1" class="form-control" />
+							<span class="error-message help-inline">{{ errors.address_line_1 }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">City<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.city|check_none_value}}" name="city" placeholder="City" class="form-control" />
+							<span class="error-message help-inline">{{ errors.city }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Skype For Call Verification</label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.skype_number|check_none_value}}" name="skype_number" placeholder="Skype For Call Verification" class="form-control" />
+							<span class="error-message help-inline">{{ errors.skype_number }}</span>
+						</div>
+					</div>
+				</div>
+				<!-- Profile Information section start-->
+				
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">PROFILE INFORMATION</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Enter Model Name<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.model_name|check_none_value}}" name="model_name" placeholder="Enter Model Name" class="form-control" />
+							<span class="error-message help-inline">{{ errors.model_name }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Images</label>
+						<div class="mws-form-item">
+							<input type="file"  name="images" id="images" multiple />
+							
+							<span class="error-message help-inline">{{ errors.images }}</span>
+							<span class="oriantations">
+							</span>
+						</div>
+					</div>
+					{% if form.is_featured == 1 %}
+
+					<div class="form-group">
+						<label class="mws-form-label">Featured Image<span class="requireRed"> *</span></label>
+						<div class="mws-form-item">
+							<input type="file"  name="featured_image" id="featured_image" />
+							<!-- <input type="hidden" name="ftimg_img_orientation" id="ftimg_img_orientation" /> -->
+							<a class="fancybox-buttons" data-fancybox-group="button" href="{{settings.MODEL_IMAGE_URL}}{{form.featured_image}}">
+								<img height="100" width="100" src="{{settings.MODEL_IMAGE_URL}}{{form.featured_image}}"/>
+							</a>
+						</div>
+					</div>
+
+					{% endif %}
+					<div class="form-group">
+						<label class="mws-form-label">Bio<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<textarea name="bio" placeholder="Bio" class="form-control">{{form.bio|check_none_value}}</textarea>
+							<span class="error-message help-inline">{{ errors.bio }}</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<div class="mws-form-item">
+							{% for img in selectedIamge %}
+								{% if img != "" %}
+									<a class="fancybox-buttons" data-fancybox-group="button" href="{{settings.MODEL_IMAGE_URL}}{{img.image_url}}">
+										<img height="100" width="100" src="{{settings.MODEL_IMAGE_URL}}{{img.image_url}}"/>
+										<!-- <a href="{% url 'users.model_images_delete' img.id %}" class="btn-danger">Delete?</a> -->
+										<a href="{% url 'users.model_images_delete' img.id %}" class="btn btn-danger delete_any_item" title="Delete"><i class="fa fa-trash-o"></i></a>
+									</a>
+								{% endif %}
+							
+						{% endfor %}
+						</div>
+					</div>
+				</div>
+				<!-- Links section start-->
+				
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">LINKS</th>
+						</tr>
+					</thead>
+				</table>
+				
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Private Snapchat<span class="requireRed">  </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.private_snapchat_link|check_none_value}}" name="private_snapchat_link" placeholder="Private Snapchat" class="form-control" />
+							<span class="error-message help-inline">{{ errors.private_snapchat_link }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Public Snapchat<span class="requireRed">  </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.public_snapchat_link|check_none_value}}" name="public_snapchat_link" placeholder="Public Snapchat" class="form-control" />
+							<span class="error-message help-inline">{{ errors.public_snapchat_link }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Public Instagram<span class="requireRed">  </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.public_instagram_link|check_none_value}}" name="public_instagram_link" placeholder="Public Instagram" class="form-control" />
+							<span class="error-message help-inline">{{ errors.public_instagram_link }}</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Twitter<span class="requireRed">  </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.twitter_link|check_none_value}}" name="twitter_link" placeholder="Twitter" class="form-control" />
+							<span class="error-message help-inline">{{ errors.twitter_link }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Youtube<span class="requireRed">  </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.youtube_link|check_none_value}}" name="youtube_link" placeholder="Youtube" class="form-control" />
+							<span class="error-message help-inline">{{ errors.youtube_link }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Amazon Wishlist<span class="requireRed">  </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.amazon_wishlist_link|check_none_value}}" name="amazon_wishlist_link" placeholder="Amazon Wishlist" class="form-control" />
+							<span class="error-message help-inline">{{ errors.amazon_wishlist_link }}</span>
+						</div>
+					</div>
+				</div>
+				<!-- Categories and stats section start-->
+				
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">CATEGORIES AND VIDEO</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Categories<span class="requireRed"> *</span></label>
+						<div class="mws-form-item">
+							<select class="form-control selectOption" name="categories" multiple>
+								{% if categoryList %}
+									{% for category in categoryList %}
+									<option value="{{category.id}}" {% if category.id in selectedCategories|replaceQuote %} selected="selected" {% endif %}>{{category.name}}</option>
+									{% endfor %}
+								{% endif %}
+							</select>
+							
+						</div>
+						<span class="error-message help-inline categoryerromsg">{{ errors.categories }}</span>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Youtube Video Url</label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.youtube_video_url|check_none_value}}" name="youtube_video_url" placeholder="Youtube Video Url" class="form-control" />
+							<span class="error-message help-inline">{{ errors.youtube_video_url }}</span>
+						</div>
+					</div>
+				</div>
+				<!-- stats section start-->
+				
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">STATS</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Age</label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.age|check_none_value}}" name="age" placeholder="Age" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Height</label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.height|check_none_value}}" name="height" placeholder="Height" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Hair</label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.hair|check_none_value}}" name="hair" placeholder="Hair" class="form-control" />
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">From</label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.from_date|check_none_value}}" name="from_date" placeholder="From" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Weight</label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.weight|check_none_value}}" name="weight" placeholder="Weight" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Eyes</label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.eyes|check_none_value}}" name="eyes" placeholder="Eyes" class="form-control" />
+						</div>
+					</div>
+				</div>
+				<!-- Subscription Offers section start-->
+				
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">SUBSCRIPTION OFFERS</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Snapchat<span class="requireRed"> *</span></label>
+						<div class="mws-form-item">
+							<input type="radio" name="subscription[snapchat][is_enabled]" value="1" {% if subcriptionDataSanpchat.is_enabled == 1 or  subcriptionDataSanpchat.is_enabled == '' %} checked="checked" {% endif %} onclick="enableDisablePlans('snapchat','1');"> Enabled
+							<input type="radio" name="subscription[snapchat][is_enabled]" value="0"  onclick="enableDisablePlans('snapchat','0');" {% if subcriptionDataSanpchat.is_enabled == 0 %} checked="checked" {% endif %}> Disabled
+						</div>
+					</div>
+					<div class="form-group subscription_details_snapchat main_subscription_snapchat" {% if subcriptionDataSanpchat.is_enabled == 0 %} style="display:none;" {% endif %}>
+						<div class="form-group">  
+							<div class="mws-form-item">
+								<input type="text" name="subscription[snapchat][username]" value="{{subcriptionDataSanpchat.username}}" class="form-control" placeholder="Username">
+							</div>
+						</div>
+						{% if subcriptionDataSanpchat.plans %}
+							{% for snapchatPlans in subcriptionDataSanpchat.plans  %}
+								<div class="row pad subscription_row" id="subscription_row_snapchat_{{forloop.counter}}">
+									<div class="col-md-6">
+										<div class="form-group"> 
+											<label class="mws-form-label">Offer Name<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="text" name="subscription[snapchat][plans][{{forloop.counter}}][offer_name]" value="{{snapchatPlans.offer_name}}" class="form-control" placeholder="Offer Name">
+											</div>
+										
+											<label class="mws-form-label">Offer Type<span class="requireRed"> </span></label>  
+											<select  name="subscription[snapchat][plans][{{forloop.counter}}][plan_type]" class="form-control plan_type_snapchat_{{forloop.counter}}" onchange="changeOfferType('snapchat','{{forloop.counter}}');" >
+												
+												<option value="recurring" {% if snapchatPlans.plan_type == "recurring" %} selected="selected" {% endif %}>Recurring Offer</option>
+												<option value="one_time" {% if snapchatPlans.plan_type == "one_time" %} selected="selected" {% endif %}>One Time Offer</option>
+											</select>
+										<div class="recurring_options_snapchat_{{forloop.counter}}" {% if snapchatPlans.plan_type == "one_time" %} style="display:none;" {% endif %}>
+												<label class="mws-form-label">Offer Period<span class="requireRed"> </span></label> 
+												<div class="mws-form-item">
+														<input type="hidden" name="subscription[snapchat][plans][{{forloop.counter}}][subscription_plan_id]" value="{{snapchatPlans.id}}" class="form-control">
+
+													<input type="number" min="0" name="subscription[snapchat][plans][{{forloop.counter}}][offer_period_time]" value="{{snapchatPlans.offer_period_time}}" class="form-control" placeholder="Offer Period">
+												</div>
+												
+												<label class="mws-form-label">Offer Period Type<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<select name="subscription[snapchat][plans][{{forloop.counter}}][offer_period_type]" class="form-control">
+														<option value="week" {% if snapchatPlans.offer_period_type == "week" %} selected="selected" {% endif %}>Week</option>
+														<option value="month" {% if snapchatPlans.offer_period_type == "month" %} selected="selected" {% endif %}>Month</option>
+														<option value="year" {% if snapchatPlans.offer_period_type == "year" %} selected="selected" {% endif %}>Year</option>
+													</select>
+												</div>
+											</div>
+											<label class="mws-form-label">Price<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="text" name="subscription[snapchat][plans][{{forloop.counter}}][price]" value="{{snapchatPlans.price}}" class="form-control" placeholder="Price">
+											</div>
+											
+											
+											<label class="mws-form-label">Description<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="text" name="subscription[snapchat][plans][{{forloop.counter}}][description]" value="{{snapchatPlans.description}}" class="form-control" placeholder="Description">
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="mws-form-label">Discount<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="checkbox" name="subscription[snapchat][plans][{{forloop.counter}}][is_discount_enabled]"  onclick="enableDisableDiscount('snapchat','{{forloop.counter}}');" class="is_discount_enabled_snapchat_{{forloop.counter}}" {% if snapchatPlans.is_discount_enabled == 1 %} checked="checked" {% endif %}>
+											</div>
+											<span class="discount_amount_snapchat_{{forloop.counter}}" {% if snapchatPlans.is_discount_enabled != 1 %} style="display:none;" {% endif %}>
+												<label class="mws-form-label">Discount Percentage<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="number" min="0" max="100" name="subscription[snapchat][plans][{{forloop.counter}}][discount]" value="{{snapchatPlans.discount}}" class="form-control" placeholder="Discount Percentage">
+												</div>
+											</span>
+											<span class="recurring_options_snapchat_{{forloop.counter}}" {% if snapchatPlans.plan_type == "one_time" %} style="display:none;" {% endif %}>
+												<label class="mws-form-label">Permanent<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="checkbox" name="subscription[snapchat][plans][{{forloop.counter}}][is_permanent_discount]" onclick="enableDisablePermanentDiscount('snapchat','{{forloop.counter}}');" class="permanent_dis_snapchat_{{forloop.counter}}" {% if snapchatPlans.is_permanent_discount == 1 %} checked="checked" {% endif %}>
+												</div>
+												
+												<span class="date_range_snapchat_{{forloop.counter}}" {% if snapchatPlans.is_permanent_discount == 1 %} style="display:none;" {% endif %}>
+													<label class="mws-form-label">Discount Start<span class="requireRed"></span></label> 
+													<div class="mws-form-item">
+														<input type="text" name="subscription[snapchat][plans][{{forloop.counter}}][from_discount_date]" value="{{snapchatPlans.from_discount_date}}" class="form-control datefield" placeholder="Discount Start">
+													</div>
+													
+													<label class="mws-form-label">Discount end<span class="requireRed"></span></label> 
+													<div class="mws-form-item">
+														<input type="text" name="subscription[snapchat][plans][{{forloop.counter}}][to_discount_date]" value="{{snapchatPlans.to_discount_date}}" class="form-control datefield" placeholder="Discount end" >
+													</div>
+												</span>
+												<label class="mws-form-label">Apply To Rebill<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="checkbox" name="subscription[snapchat][plans][{{forloop.counter}}][is_apply_to_rebills]" {% if snapchatPlans.is_apply_to_rebills == 1 %} checked="checked" {% endif %}>
+												</div>
+											</span>
+										</div>
+									</div>
+									{% if forloop.counter > 1 %}
+									<div class="col-md-12">
+										<a href="javascript:void(0);" class="btn btn-primary remove" data-id="{{snapchatPlans.id}}"><i class="fa fa-minus" aria-hidden="true"></i></a>
+									</div>
+									{% endif %}
+									
+								</div>
+							{% endfor %}
+							<input type="hidden" name="addmoreCount_snapchat" id="addmoreCount_snapchat" value="{{ subcriptionDataSanpchat.plans|length }}">
+						{% else %}	
+							<div class="row pad subscription_row" id="subscription_row_snapchat_1">
+								<div class="col-md-6">
+									<div class="form-group"> 
+										<label class="mws-form-label">Offer Name<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="text" name="subscription[snapchat][plans][1][offer_name]" value="" class="form-control" placeholder="Offer Name">
+										</div>
+									
+										<label class="mws-form-label">Offer Type<span class="requireRed"> </span></label>  
+										<select  name="subscription[snapchat][plans][1][plan_type]" class="form-control plan_type_snapchat_1" onchange="changeOfferType('snapchat','1');" >
+											<option value="recurring">Recurring Offer</option>
+											<option value="one_time">One Time Offer</option>
+										</select>
+									<div class="recurring_options_snapchat_1">
+											<label class="mws-form-label">Offer Period<span class="requireRed"> </span></label> 
+											<div class="mws-form-item">
+												
+												<input type="number" min="0" name="subscription[snapchat][plans][1][offer_period_time]" value="" class="form-control" placeholder="Offer Period">
+											</div>
+											
+											<label class="mws-form-label">Offer Period Type<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<select name="subscription[snapchat][plans][1][offer_period_type]" class="form-control">
+													<option value="week">Week</option>
+													<option value="month">Month</option>
+													<option value="year">Year</option>
+												</select>
+											</div>
+										</div>
+										<label class="mws-form-label">Price<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="text" name="subscription[snapchat][plans][1][price]" value="" class="form-control" placeholder="Price">
+										</div>
+										
+										
+										<label class="mws-form-label">Description<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="text" name="subscription[snapchat][plans][1][description]" value="" class="form-control" placeholder="Description">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="mws-form-label">Discount<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="checkbox" name="subscription[snapchat][plans][1][is_discount_enabled]" onclick="enableDisableDiscount('snapchat','1');" class="is_discount_enabled_snapchat_1">
+										</div>
+										<span class="discount_amount_snapchat_1" style="display:none;">
+											<label class="mws-form-label">Discount Percentage<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="number" min="0" max="100" name="subscription[snapchat][plans][1][discount]" value="" class="form-control" placeholder="Discount Percentage">
+											</div>
+										</span>
+										<span class="recurring_options_snapchat_1">
+											<label class="mws-form-label">Permanent<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="checkbox" name="subscription[snapchat][plans][1][is_permanent_discount]" onclick="enableDisablePermanentDiscount('snapchat','1');" class="permanent_dis_snapchat_1">
+											</div>
+											
+											<span class="date_range_snapchat_1">
+												<label class="mws-form-label">Discount Start<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="text" name="subscription[snapchat][plans][1][from_discount_date]" value="" class="form-control datefield" placeholder="Discount Start">
+												</div>
+												
+												<label class="mws-form-label">Discount end<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="text" name="subscription[snapchat][plans][1][to_discount_date]" value="" class="form-control datefield" placeholder="Discount end" >
+												</div>
+											</span>
+											<label class="mws-form-label">Apply To Rebill<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="checkbox" name="subscription[snapchat][plans][1][is_apply_to_rebills]" >
+											</div>
+										</span>
+									</div>
+								</div>
+							</div>
+							<input type="hidden" name="addmoreCount_snapchat" id="addmoreCount_snapchat" value="1">
+						{% endif %}
+					</div>
+					<div class="form-group subscription_details_snapchat" {% if subcriptionDataSanpchat.is_enabled == 0 %} style="display:none;" {% endif %}>
+						<div class="mws-form-item">
+							
+							<a href="javascript:void(0);" class="btn btn-primary" onclick="add_more_paln('snapchat');"><i class="fa fa-plus" aria-hidden="true"></i></a>
+						</div>
+					</div>
+					
+					
+					<!-- PRIVATE FEED SECTION -->
+					<div class="form-group">
+						<label class="mws-form-label">Private Feed<span class="requireRed"> *</span></label>
+						<div class="mws-form-item">
+							<input type="radio" name="subscription[private_feed][is_enabled]" value="1" {% if subcriptionDataPrivateFeed.is_enabled == 1 %} checked="checked" {% endif %} onclick="enableDisablePlans('private_feed','1');"> Enabled
+							<input type="radio" name="subscription[private_feed][is_enabled]" value="0" onclick="enableDisablePlans('private_feed','0');" {% if subcriptionDataPrivateFeed.is_enabled == 0 or subcriptionDataPrivateFeed.is_enabled == "" %} checked="checked" {% endif %}> Disabled
+						</div>
+					</div>
+					<div class="form-group subscription_details_private_feed main_subscription_private_feed" {% if subcriptionDataPrivateFeed.is_enabled == 0 %} style="display:none;" {% endif %}>
+						<div class="form-group">  
+							<div class="mws-form-item">
+								<input type="text" name="subscription[private_feed][username]" value="{{subcriptionDataPrivateFeed.username}}" class="form-control" placeholder="Username">
+							</div>
+						</div>
+						{% if subcriptionDataPrivateFeed.plans %}
+							{% for privateFeedPlans in subcriptionDataPrivateFeed.plans  %}
+								<div class="row pad subscription_row" id="subscription_row_private_feed_{{forloop.counter}}">
+									<div class="col-md-6">
+										<div class="form-group">  
+											<label class="mws-form-label">Offer Name<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="text" name="subscription[private_feed][plans][{{forloop.counter}}][offer_name]" value="{{privateFeedPlans.offer_name}}" class="form-control" placeholder="Offer Name">
+											</div>
+										
+										
+										
+											<label class="mws-form-label">Offer Type<span class="requireRed"> </span></label>  
+											<select  name="subscription[private_feed][plans][{{forloop.counter}}][plan_type]" class="form-control plan_type_private_feed_{{forloop.counter}}" onchange="changeOfferType('private_feed','{{forloop.counter}}');">
+												<option value="recurring"  {% if privateFeedPlans.plan_type == "recurring" %} selected="selected" {% endif %}>Recurring Offer</option>
+												<option value="one_time" {% if privateFeedPlans.plan_type == "one_time" %} selected="selected" {% endif %}>One Time Offer</option>
+											</select>
+											<div class="recurring_options_private_feed_{{forloop.counter}}" {% if privateFeedPlans.plan_type == "one_time" %} style="display:none;" {% endif %}>
+												<label class="mws-form-label">Offer Period<span class="requireRed"> </span></label> 
+												<div class="mws-form-item">
+													<input type="hidden" name="subscription[private_feed][plans][{{forloop.counter}}][subscription_plan_id]" value="{{privateFeedPlans.id}}" class="form-control">
+
+													<input type="number" min="0" name="subscription[private_feed][plans][{{forloop.counter}}][offer_period_time]" value="{{privateFeedPlans.offer_period_time}}" class="form-control" placeholder="Offer Period">
+												</div>
+												
+												<label class="mws-form-label">Offer Period Type<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<select name="subscription[private_feed][plans][{{forloop.counter}}][offer_period_type]" class="form-control">
+														<option value="week" {% if privateFeedPlans.offer_period_type == "week" %} selected="selected" {% endif %}>Week</option>
+														<option value="month" {% if privateFeedPlans.offer_period_type == "month" %} selected="selected" {% endif %}>Month</option>
+														<option value="year" {% if privateFeedPlans.offer_period_type == "month" %} selected="selected" {% endif %}>Year</option>
+													</select>
+												</div>
+											</div>
+											<label class="mws-form-label">Price<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="number" min="0" name="subscription[private_feed][plans][{{forloop.counter}}][price]" value="{{privateFeedPlans.price}}" class="form-control" placeholder="Price">
+											</div>
+											
+											
+											<label class="mws-form-label">Description<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="text" name="subscription[private_feed][plans][{{forloop.counter}}][description]" value="{{privateFeedPlans.description}}" class="form-control" placeholder="Description">
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="mws-form-label">Discount<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="checkbox" name="subscription[private_feed][plans][{{forloop.counter}}][is_discount_enabled]" onclick="enableDisableDiscount('private_feed','{{forloop.counter}}');" class="is_discount_enabled_private_feed_{{forloop.counter}}" {% if privateFeedPlans.is_discount_enabled == 1 %} checked="checked" {% endif %}>
+											</div>
+											<span class="discount_amount_private_feed_{{forloop.counter}}" {% if privateFeedPlans.is_discount_enabled != 1 %} style="display:none;" {% endif %}>
+												<label class="mws-form-label">Discount Percentage<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="number" min="0" max="100" name="subscription[private_feed][plans][{{forloop.counter}}][discount]" value="{{privateFeedPlans.discount}}" class="form-control" placeholder="Discount Percentage" {% if privateFeedPlans.is_permanent_discount == 1 %} checked="checked" {% endif %}>
+												</div>
+											</span>
+											<span class="recurring_options_private_feed_{{forloop.counter}}" {% if privateFeedPlans.plan_type == "one_time" %} style="display:none;" {% endif %}>
+												<label class="mws-form-label">Permanent<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="checkbox" name="subscription[private_feed][plans][{{forloop.counter}}][is_permanent_discount]"  onclick="enableDisablePermanentDiscount('private_feed','{{forloop.counter}}');" class="permanent_dis_private_feed_{{forloop.counter}}" {% if privateFeedPlans.is_permanent_discount == 1 %} checked="checked" {% endif %}>
+												</div>
+												<span class="date_range_private_feed_{{forloop.counter}}" {% if privateFeedPlans.is_permanent_discount == 1 %} style="display:none;" {% endif %}>
+													<label class="mws-form-label">Discount Start<span class="requireRed"></span></label> 
+													<div class="mws-form-item">
+														<input type="text" name="subscription[private_feed][plans][{{forloop.counter}}][from_discount_date]" value="{{privateFeedPlans.from_discount_date}}" class="form-control datefield" placeholder="Discount Start">
+													</div>
+													
+													<label class="mws-form-label">Discount end<span class="requireRed"></span></label> 
+													<div class="mws-form-item">
+														<input type="text" name="subscription[private_feed][plans][{{forloop.counter}}][to_discount_date]" value="{{privateFeedPlans.to_discount_date}}" class="form-control datefield" placeholder="Discount end" >
+													</div>
+												</span>
+												<label class="mws-form-label">Apply To Rebill<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="checkbox" name="subscription[private_feed][plans][{{forloop.counter}}][is_apply_to_rebills]" {% if privateFeedPlans.is_apply_to_rebills == 1 %} checked="checked" {% endif %}>
+												</div>
+											</span>
+										</div>
+									</div>
+									{% if forloop.counter > 1 %}
+									<div class="col-md-12">
+										<a href="javascript:void(0);" class="btn btn-primary remove" data-id="{{privateFeedPlans.id}}"><i class="fa fa-minus" aria-hidden="true"></i></a>
+									</div>
+									{% endif %}
+								</div>
+							{% endfor %}
+							<input type="hidden" name="addmoreCount_private_feed" id="addmoreCount_private_feed" value="{{ subcriptionDataPrivateFeed.plans|length }}">
+						{% else %}	
+							<div class="row pad subscription_row" id="subscription_row_private_feed_1">
+								<div class="col-md-6">
+									<div class="form-group">  
+										<label class="mws-form-label">Offer Name<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="text" name="subscription[private_feed][plans][1][offer_name]" value="" class="form-control" placeholder="Offer Name">
+										</div>
+									
+									
+										<label class="mws-form-label">Offer Type<span class="requireRed"> </span></label>  
+										<select  name="subscription[private_feed][plans][1][plan_type]" class="form-control plan_type_private_feed_1" onchange="changeOfferType('private_feed','1');">
+											<option value="recurring">Recurring Offer</option>
+											<option value="one_time">One Time Offer</option>
+										</select>
+										<div class="recurring_options_private_feed_1">
+											<label class="mws-form-label">Offer Period<span class="requireRed"> </span></label> 
+											<div class="mws-form-item">
+												<input type="number" min="0" name="subscription[private_feed][plans][1][offer_period_time]" value="" class="form-control" placeholder="Offer Period">
+											</div>
+											
+											<label class="mws-form-label">Offer Period Type<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<select name="subscription[private_feed][plans][1][offer_period_type]" class="form-control">
+													<option value="week">Week</option>
+													<option value="month">Month</option>
+													<option value="year">Year</option>
+												</select>
+											</div>
+										</div>
+										<label class="mws-form-label">Price<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="number" min="0" name="subscription[private_feed][plans][1][price]" value="" class="form-control" placeholder="Price">
+										</div>
+										
+										<label class="mws-form-label">Description<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="text" name="subscription[private_feed][plans][1][description]" value="" class="form-control" placeholder="Description">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="mws-form-label">Discount<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="checkbox" name="subscription[private_feed][plans][1][is_discount_enabled]" onclick="enableDisableDiscount('private_feed','1');" class="is_discount_enabled_private_feed_1">
+										</div>
+										<span class="discount_amount_private_feed_1" style="display:none;">
+											<label class="mws-form-label">Discount Percentage<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="number" min="0" max="100" name="subscription[private_feed][plans][1][discount]" value="" class="form-control" placeholder="Discount Percentage">
+											</div>
+										</span>
+										<span class="recurring_options_private_feed_1">
+											<label class="mws-form-label">Permanent<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="checkbox" name="subscription[private_feed][plans][1][is_permanent_discount]"  onclick="enableDisablePermanentDiscount('private_feed','1');" class="permanent_dis_private_feed_1">
+											</div>
+											<span class="date_range_private_feed_1">
+												<label class="mws-form-label">Discount Start<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="text" name="subscription[private_feed][plans][1][from_discount_date]" value="" class="form-control datefield" placeholder="Discount Start">
+												</div>
+												
+												<label class="mws-form-label">Discount end<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="text" name="subscription[private_feed][plans][1][to_discount_date]" value="" class="form-control datefield" placeholder="Discount end" >
+												</div>
+											</span>
+											<label class="mws-form-label">Apply To Rebill<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="checkbox" name="subscription[private_feed][plans][1][is_apply_to_rebills]" >
+											</div>
+										</span>
+									</div>
+								</div>
+							</div>
+							<input type="hidden" name="addmoreCount_private_feed" id="addmoreCount_private_feed" value="1">
+						{% endif %}	
+					</div>
+					<div class="form-group subscription_details_private_feed" {% if subcriptionDataPrivateFeed.is_enabled == 0 %} style="display:none;" {% endif %}>
+						<div class="mws-form-item">
+							<a href="javascript:void(0);" class="btn btn-primary" onclick="add_more_paln('private_feed');"><i class="fa fa-plus" aria-hidden="true"></i></a>
+						</div>
+					</div>
+					
+					<!-- WHATSAPP SECTION -->
+					<div class="form-group">
+						<label class="mws-form-label">Whatsapp<span class="requireRed"> *</span></label>
+						<div class="mws-form-item">
+							<input type="radio" name="subscription[whatsapp][is_enabled]" value="1" {% if subcriptionDataWhatsapp.is_enabled == 1  %} checked="checked" {% endif %} onclick="enableDisablePlans('whatsapp','1');"> Enabled
+							<input type="radio" name="subscription[whatsapp][is_enabled]" value="0" onclick="enableDisablePlans('whatsapp','0');" {% if subcriptionDataWhatsapp.is_enabled == 0 or subcriptionDataWhatsapp.is_enabled == '' %} checked="checked" {% endif %}> Disabled
+						</div>
+					</div>
+					<div class="form-group subscription_details_whatsapp main_subscription_whatsapp" {% if subcriptionDataWhatsapp.is_enabled == 0 %} style="display:none;" {% endif %}>
+						<div class="form-group">  
+							<div class="mws-form-item">
+								<input type="text" name="subscription[whatsapp][username]" value="{{subcriptionDataWhatsapp.username}}" class="form-control" placeholder="Phone Number">
+							</div>
+						</div>
+						{% if subcriptionDataWhatsapp.plans %}
+							{% for whatsappPlans in subcriptionDataWhatsapp.plans  %}
+								<div class="row pad subscription_row" id="subscription_row_whatsapp_{{forloop.counter}}">
+									<div class="col-md-6">
+										<div class="form-group">  
+											<label class="mws-form-label">Offer Name<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="text" name="subscription[whatsapp][plans][{{forloop.counter}}][offer_name]" value="{{whatsappPlans.offer_name}}" class="form-control" placeholder="Offer Name">
+											</div>
+											
+											<label class="mws-form-label">Offer Type<span class="requireRed"> </span></label>  
+											<select  name="subscription[whatsapp][plans][{{forloop.counter}}][plan_type]" class="form-control plan_type_whatsapp_{{forloop.counter}}" onchange="changeOfferType('whatsapp','{{forloop.counter}}');">
+												<option value="recurring" {% if whatsappPlans.plan_type == "recurring" %} selected="selected" {% endif %}>Recurring Offer</option>
+												<option value="one_time" {% if whatsappPlans.plan_type == "one_time" %} selected="selected" {% endif %}>One Time Offer</option>
+											</select>
+											<div class="recurring_options_whatsapp_{{forloop.counter}}" {% if whatsappPlans.plan_type == "one_time" %} style="display:none;" {% endif %}>
+												<label class="mws-form-label">Offer Period<span class="requireRed"> </span></label> 
+												<div class="mws-form-item">
+													<input type="hidden" name="subscription[whatsapp][plans][{{forloop.counter}}][subscription_plan_id]" value="{{whatsappPlans.id}}" class="form-control">
+													<input type="number" min="0" name="subscription[whatsapp][plans][{{forloop.counter}}][offer_period_time]" value="{{whatsappPlans.offer_period_time}}" class="form-control" placeholder="Offer Period">
+												</div>
+												
+												<label class="mws-form-label">Offer Period Type<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<select name="subscription[whatsapp][plans][{{forloop.counter}}][offer_period_type]" class="form-control">
+														<option value="week" {% if whatsappPlans.offer_period_type == "week" %} selected="selected" {% endif %}>Week</option>
+														<option value="month" {% if whatsappPlans.offer_period_type == "month" %} selected="selected" {% endif %}>Month</option>
+														<option value="year" {% if whatsappPlans.offer_period_type == "year" %} selected="selected" {% endif %}>Year</option>
+													</select>
+												</div>
+											</div>
+											<label class="mws-form-label">Price<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="number" min="0" name="subscription[whatsapp][plans][{{forloop.counter}}][price]" value="{{whatsappPlans.price}}" class="form-control" placeholder="Price">
+											</div>
+											
+											
+											<label class="mws-form-label">Description<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="text" name="subscription[whatsapp][plans][{{forloop.counter}}][description]" value="{{whatsappPlans.description}}" class="form-control" placeholder="Description">
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="mws-form-label">Discount<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="checkbox" name="subscription[whatsapp][plans][{{forloop.counter}}][is_discount_enabled]" onclick="enableDisableDiscount('whatsapp','{{forloop.counter}}');" class="is_discount_enabled_whatsapp_{{forloop.counter}}" {% if whatsappPlans.is_discount_enabled == 1 %} checked="checked" {% endif %}>
+											</div>
+											<span class="discount_amount_whatsapp_{{forloop.counter}}" {% if whatsappPlans.is_discount_enabled == 0 %} style="display:none;" {% endif %} >
+												<label class="mws-form-label">Discount Percentage<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="number" min="0" max="100" name="subscription[whatsapp][plans][{{forloop.counter}}][discount]" value="{{whatsappPlans.discount}}" class="form-control" placeholder="Discount Percentage">
+												</div>
+											</span>
+											<span class="recurring_options_whatsapp_{{forloop.counter}}" {% if whatsappPlans.plan_type == "one_time" %} style="display:none;" {% endif %}>
+												<label class="mws-form-label">Permanent<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="checkbox" name="subscription[whatsapp][plans][{{forloop.counter}}][is_permanent_discount]"  onclick="enableDisablePermanentDiscount('whatsapp','{{forloop.counter}}');" class="permanent_dis_whatsapp_{{forloop.counter}}" {% if whatsappPlans.is_permanent_discount == 1 %} checked="checked" {% endif %}>
+												</div>
+												<span class="date_range_whatsapp_{{forloop.counter}}" {% if whatsappPlans.is_permanent_discount == 1 %} style="display:none;" {% endif %}>
+													<label class="mws-form-label">Discount Start<span class="requireRed"></span></label> 
+													<div class="mws-form-item">
+														<input type="text" name="subscription[whatsapp][plans][{{forloop.counter}}][from_discount_date]" value="{{whatsappPlans.from_discount_date}}" class="form-control datefield" placeholder="Discount Start">
+													</div>
+													
+													<label class="mws-form-label">Discount end<span class="requireRed"></span></label> 
+													<div class="mws-form-item">
+														<input type="text" name="subscription[whatsapp][plans][{{forloop.counter}}][to_discount_date]" value="{{whatsappPlans.to_discount_date}}" class="form-control datefield" placeholder="Discount end" >
+													</div>
+												</span>
+												<label class="mws-form-label">Apply To Rebill<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="checkbox" name="subscription[whatsapp][plans][{{forloop.counter}}][is_apply_to_rebills]" {% if whatsappPlans.is_apply_to_rebills == 1 %} checked="checked" {% endif %}>
+												</div>
+											</span>
+										</div>
+									</div>
+									{% if forloop.counter > 1 %}
+									<div class="col-md-12">
+										<a href="javascript:void(0);" class="btn btn-primary remove" data-id="{{whatsappPlans.id}}"><i class="fa fa-minus" aria-hidden="true"></i></a>
+									</div>
+									{% endif %}
+								</div>
+							{% endfor %}
+							<input type="hidden" name="addmoreCount_whatsapp" id="addmoreCount_whatsapp" value="{{ subcriptionDataWhatsapp.plans|length }}">
+						{% else %}	
+							<div class="row pad subscription_row" id="subscription_row_whatsapp_1">
+								<div class="col-md-6">
+									<div class="form-group">  
+										<label class="mws-form-label">Offer Name<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="text" name="subscription[whatsapp][plans][1][offer_name]" value="" class="form-control" placeholder="Offer Name">
+										</div>
+										
+										<label class="mws-form-label">Offer Type<span class="requireRed"> </span></label>  
+										<select  name="subscription[whatsapp][plans][1][plan_type]" class="form-control plan_type_whatsapp_1" onchange="changeOfferType('whatsapp','1');">
+											<option value="recurring">Recurring Offer</option>
+											<option value="one_time">One Time Offer</option>
+										</select>
+										<div class="recurring_options_whatsapp_1">
+											<label class="mws-form-label">Offer Period<span class="requireRed"> </span></label> 
+											<div class="mws-form-item">
+												<input type="number" min="0" name="subscription[whatsapp][plans][1][offer_period_time]" value="" class="form-control" placeholder="Offer Period">
+											</div>
+											
+											<label class="mws-form-label">Offer Period Type<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<select name="subscription[whatsapp][plans][1][offer_period_type]" class="form-control">
+													<option value="week">Week</option>
+													<option value="month">Month</option>
+													<option value="year">Year</option>
+												</select>
+											</div>
+										</div>
+										<label class="mws-form-label">Price<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="number" min="0" name="subscription[whatsapp][plans][1][price]" value="" class="form-control" placeholder="Price">
+										</div>
+										
+										
+										<label class="mws-form-label">Description<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="text" name="subscription[whatsapp][plans][1][description]" value="" class="form-control" placeholder="Description">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="mws-form-label">Discount<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="checkbox" name="subscription[whatsapp][plans][1][is_discount_enabled]" onclick="enableDisableDiscount('whatsapp','1');" class="is_discount_enabled_whatsapp_1">
+										</div>
+										<span class="discount_amount_whatsapp_1" style="display:none;">
+											<label class="mws-form-label">Discount Percentage<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="number" min="0" max="100" name="subscription[whatsapp][plans][1][discount]" value="" class="form-control" placeholder="Discount Percentage">
+											</div>
+										</span>
+										<span class="recurring_options_whatsapp_1">
+											<label class="mws-form-label">Permanent<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="checkbox" name="subscription[whatsapp][plans][1][is_permanent_discount]"  onclick="enableDisablePermanentDiscount('whatsapp','1');" class="permanent_dis_whatsapp_1">
+											</div>
+											<span class="date_range_whatsapp_1">
+												<label class="mws-form-label">Discount Start<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="text" name="subscription[whatsapp][plans][1][from_discount_date]" value="" class="form-control datefield" placeholder="Discount Start">
+												</div>
+												
+												<label class="mws-form-label">Discount end<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="text" name="subscription[whatsapp][plans][1][to_discount_date]" value="" class="form-control datefield" placeholder="Discount end" >
+												</div>
+											</span>
+											<label class="mws-form-label">Apply To Rebill<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="checkbox" name="subscription[whatsapp][plans][1][is_apply_to_rebills]" >
+											</div>
+										</span>
+									</div>
+								</div>
+							</div>
+							<input type="hidden" name="addmoreCount_whatsapp" id="addmoreCount_whatsapp" value="1">
+						{% endif %}	
+					</div>
+					<div class="form-group subscription_details_whatsapp" {% if subcriptionDataWhatsapp.is_enabled == 0 %} style="display:none;" {% endif %}>
+						<div class="mws-form-item">
+							<a href="javascript:void(0);" class="btn btn-primary" onclick="add_more_paln('whatsapp');"><i class="fa fa-plus" aria-hidden="true"></i></a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<!-- INSTAGRAM SECTION -->
+					<div class="form-group">
+						<label class="mws-form-label">Instagram<span class="requireRed"> *</span></label>
+						<div class="mws-form-item">
+							<input type="radio" name="subscription[instagram][is_enabled]" value="1" onclick="enableDisablePlans('instagram','1');" {% if subcriptionDataInstagram.is_enabled == 1 %} checked="checked" {% endif %}> Enabled
+							
+							<input type="radio" name="subscription[instagram][is_enabled]" value="0" {% if subcriptionDataInstagram.is_enabled == 0 or  subcriptionDataInstagram.is_enabled == '' %} checked="checked" {% endif %} onclick="enableDisablePlans('instagram','0');"> Disabled
+						</div>
+					</div>
+					<div class="form-group subscription_details_instagram main_subscription_instagram" {% if subcriptionDataInstagram.is_enabled == 0 %} style="display:none;" {% endif %}>
+						<div class="form-group">  
+							<div class="mws-form-item">
+								<input type="text" name="subscription[instagram][username]" value="{{subcriptionDataInstagram.username}}" class="form-control" placeholder="Username">
+							</div>
+						</div>
+						{% if subcriptionDataInstagram.plans %}
+							{% for instagramPlans in subcriptionDataInstagram.plans  %}
+								<div class="row pad subscription_row" id="subscription_row_instagram_{{forloop.counter}}">
+									<div class="col-md-6">
+										<div class="form-group"> 
+											<label class="mws-form-label">Offer Name<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="text" name="subscription[instagram][plans][{{forloop.counter}}][offer_name]" value="{{instagramPlans.offer_name}}" class="form-control" placeholder="Offer Name">
+											</div>
+										
+											<label class="mws-form-label">Offer Type<span class="requireRed"> </span></label>   
+											<select  name="subscription[instagram][plans][{{forloop.counter}}][plan_type]" class="form-control plan_type_instagram_{{forloop.counter}}" onchange="changeOfferType('instagram','{{forloop.counter}}');">
+												<option value="recurring" {% if instagramPlans.plan_type == "recurring" %} selected="selected" {% endif %}>Recurring Offer</option>
+												<option value="one_time" {% if instagramPlans.plan_type == "one_time" %} selected="selected" {% endif %}>One Time Offer</option>
+											</select>
+											<div class="recurring_options_instagram_{{forloop.counter}}" {% if instagramPlans.plan_type == "one_time" %} style="display:none;" {% endif %}>
+												<label class="mws-form-label">Offer Period<span class="requireRed"> </span></label> 
+												<div class="mws-form-item">
+														<input type="hidden" name="subscription[instagram][plans][{{forloop.counter}}][subscription_plan_id]" value="{{instagramPlans.id}}" class="form-control">
+
+													<input type="number" min="0" name="subscription[instagram][plans][{{forloop.counter}}][offer_period_time]" value="{{instagramPlans.offer_period_time}}" class="form-control" placeholder="Offer Period">
+												</div>
+												
+												<label class="mws-form-label">Offer Period Type<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<select name="subscription[instagram][plans][{{forloop.counter}}][offer_period_type]" class="form-control">
+														<option value="week" {% if instagramPlans.offer_period_type == "week" %} selected="selected" {% endif %}>Week</option>
+														<option value="month" {% if instagramPlans.offer_period_type == "month" %} selected="selected" {% endif %}>Month</option>
+														<option value="year" {% if instagramPlans.offer_period_type == "year" %} selected="selected" {% endif %}>Year</option>
+													</select>
+												</div>
+											</div>
+											<label class="mws-form-label">Price<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="number" min="0" name="subscription[instagram][plans][{{forloop.counter}}][price]" value="{{instagramPlans.price}}" class="form-control" placeholder="Price">
+											</div>
+											
+											<label class="mws-form-label">Description<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="text" name="subscription[instagram][plans][{{forloop.counter}}][description]" value="{{instagramPlans.description}}" class="form-control" placeholder="Description">
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="mws-form-label">Discount<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="checkbox" name="subscription[instagram][plans][{{forloop.counter}}][is_discount_enabled]" onclick="enableDisableDiscount('instagram','{{forloop.counter}}');" class="is_discount_enabled_instagram_{{forloop.counter}}" {% if instagramPlans.is_discount_enabled == 1 %} checked="checked" {% endif %}>
+											</div>
+											<span class="discount_amount_instagram_{{forloop.counter}}" {% if instagramPlans.is_discount_enabled != 1 %} style="display:none;" {% endif %} >
+												<label class="mws-form-label">Discount Percentage<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="number" min="0" max="100" name="subscription[instagram][plans][{{forloop.counter}}][discount]" value="{{instagramPlans.discount}}" class="form-control" placeholder="Discount Percentage">
+												</div>
+											</span>
+											<span class="recurring_options_instagram_{{forloop.counter}}" {% if instagramPlans.plan_type == "one_time" %} style="display:none;" {% endif %}>
+												<label class="mws-form-label">Permanent<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="checkbox" name="subscription[instagram][plans][{{forloop.counter}}][is_permanent_discount]"  onclick="enableDisablePermanentDiscount('instagram','{{forloop.counter}}');" class="permanent_dis_instagram_{{forloop.counter}}" {% if instagramPlans.is_permanent_discount == 1 %} checked="checked" {% endif %}>
+												</div>
+												<span class="date_range_instagram_{{forloop.counter}}" {% if instagramPlans.is_permanent_discount == 1 %} style="display:none;" {% endif %}>
+													<label class="mws-form-label">Discount Start<span class="requireRed"></span></label> 
+													<div class="mws-form-item">
+														<input type="text" name="subscription[instagram][plans][{{forloop.counter}}][from_discount_date]" value="{{instagramPlans.from_discount_date}}" class="form-control datefield" placeholder="Discount Start">
+													</div>
+													
+													<label class="mws-form-label">Discount end<span class="requireRed"></span></label> 
+													<div class="mws-form-item">
+														<input type="text" name="subscription[instagram][plans][{{forloop.counter}}][to_discount_date]" value="{{instagramPlans.to_discount_date}}" class="form-control datefield" placeholder="Discount end" >
+													</div>
+												</span>
+												<label class="mws-form-label">Apply To Rebill<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="checkbox" name="subscription[instagram][plans][{{forloop.counter}}][is_apply_to_rebills]" {% if instagramPlans.is_apply_to_rebills == 1 %} checked="checked" {% endif %}>
+												</div>
+											</span>
+										</div>
+									</div>
+									{% if forloop.counter > 1 %}
+									<div class="col-md-12">
+										<a href="javascript:void(0);" class="btn btn-primary remove" data-id="{{instagramPlans.id}}"><i class="fa fa-minus" aria-hidden="true"></i></a>
+									</div>
+									{% endif %}
+								</div>
+							{% endfor %}
+							<input type="hidden" name="addmoreCount_instagram" id="addmoreCount_instagram" value="{{ subcriptionDataInstagram.plans|length }}">
+						{% else %}
+							<div class="row pad subscription_row" id="subscription_row_instagram_1">
+								<div class="col-md-6">
+									<div class="form-group"> 
+										<label class="mws-form-label">Offer Name<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="text" name="subscription[instagram][plans][1][offer_name]" value="" class="form-control" placeholder="Offer Name">
+										</div>
+										
+									
+										<label class="mws-form-label">Offer Type<span class="requireRed"> </span></label>   
+										<select  name="subscription[instagram][plans][1][plan_type]" class="form-control plan_type_instagram_1" onchange="changeOfferType('instagram','1');">
+											<option value="recurring">Recurring Offer</option>
+											<option value="one_time">One Time Offer</option>
+										</select>
+									<div class="recurring_options_instagram_1">
+											<label class="mws-form-label">Offer Period<span class="requireRed"> </span></label> 
+											<div class="mws-form-item">
+												<input type="number" min="0" name="subscription[instagram][plans][1][offer_period_time]" value="" class="form-control" placeholder="Offer Period">
+											</div>
+											
+											<label class="mws-form-label">Offer Period Type<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<select name="subscription[instagram][plans][1][offer_period_type]" class="form-control">
+													<option value="week">Week</option>
+													<option value="month">Month</option>
+													<option value="year">Year</option>
+												</select>
+											</div>
+										</div>
+										<label class="mws-form-label">Price<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="number" min="0" name="subscription[instagram][plans][1][price]" value="" class="form-control" placeholder="Price">
+										</div>
+										
+										
+										<label class="mws-form-label">Description<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="text" name="subscription[instagram][plans][1][description]" value="" class="form-control" placeholder="Description">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="mws-form-label">Discount<span class="requireRed"></span></label> 
+										<div class="mws-form-item">
+											<input type="checkbox" name="subscription[instagram][plans][1][is_discount_enabled]" onclick="enableDisableDiscount('instagram','1');" class="is_discount_enabled_instagram_1">
+										</div>
+										<span class="discount_amount_instagram_1" style="display:none;">
+											<label class="mws-form-label">Discount Percentage<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="number" min="0" max="100" name="subscription[instagram][plans][1][discount]" value="" class="form-control" placeholder="Discount Percentage">
+											</div>
+										</span>
+										<span class="recurring_options_instagram_1">
+											<label class="mws-form-label">Permanent<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="checkbox" name="subscription[instagram][plans][1][is_permanent_discount]"  onclick="enableDisablePermanentDiscount('instagram','1');" class="permanent_dis_instagram_1">
+											</div>
+											<span class="date_range_instagram_1">
+												<label class="mws-form-label">Discount Start<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="text" name="subscription[instagram][plans][1][from_discount_date]" value="" class="form-control datefield" placeholder="Discount Start">
+												</div>
+												
+												<label class="mws-form-label">Discount end<span class="requireRed"></span></label> 
+												<div class="mws-form-item">
+													<input type="text" name="subscription[instagram][plans][1][to_discount_date]" value="" class="form-control datefield" placeholder="Discount end" >
+												</div>
+											</span>
+											<label class="mws-form-label">Apply To Rebill<span class="requireRed"></span></label> 
+											<div class="mws-form-item">
+												<input type="checkbox" name="subscription[instagram][plans][1][is_apply_to_rebills]" >
+											</div>
+										</span>
+									</div>
+								</div>
+							</div>
+							<input type="hidden" name="addmoreCount_instagram" id="addmoreCount_instagram" value="1">
+						{% endif%}
+					</div>
+					<div class="form-group subscription_details_instagram" {% if subcriptionDataInstagram.is_enabled == 0 %} style="display:none;" {% endif %}>
+						<div class="mws-form-item">
+							<a href="javascript:void(0);" class="btn btn-primary" onclick="add_more_paln('instagram');"><i class="fa fa-plus" aria-hidden="true"></i></a>
+						</div>
+					</div>
+					
+					<!-- TIPS SECTION -->
+					
+					<div class="form-group">
+						<label class="mws-form-label">Tips<span class="requireRed"> *</span></label>
+						<div class="mws-form-item">
+							<input type="radio" name="subscription[tips][is_enabled]" value="1" onclick="enableDisablePlans('tips','1');" {% if subcriptionDataTips.is_enabled == 1  %} checked="checked" {% endif %} > Enabled
+							<input type="radio" name="subscription[tips][is_enabled]" value="0" {% if subcriptionDataTips.is_enabled == 0 or subcriptionDataTips.is_enabled == '' %} checked="checked" {% endif %} onclick="enableDisablePlans('tips','0');" > Disabled
+						</div>
+					</div>
+				</div>
+				<!-- Account Verification section start-->
+				
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">ACCOUNT VERIFICATION (Verified Government ID)</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Government Id Number<span class="requireRed"> </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.government_id_number}}" name="government_id_number" placeholder="Government Id Number" class="form-control" />
+							<span class="error-message help-inline">{{ errors.government_id_number }}</span>
+						</div>
+					</div>
+					{% if userImageDetail %}
+					{% for userImgs in userImageDetail %}
+					<div class="form-group">
+						<label class="mws-form-label">Government Id Front Image<span class="requireRed"> </span></label>
+						<div class="mws-form-item">
+							<input type="file"  name="government_id_front_image" id="government_id_front_image" />
+							<input type="hidden"  name="img_orientation" id="img_orientation" />
+							{% if userImgs.government_id_front_image != "" %}
+							<a class="fancybox-buttons" data-fancybox-group="button" href="{{settings.MODEL_IMAGE_URL}}{{form.government_id_front_image}}">
+								<img height="100" width="100" src="{{settings.MODEL_IMAGE_URL}}{{form.government_id_front_image}}"/>
+							</a>
+							{% endif %}
+							<span class="error-message help-inline">{{ errors.government_id_front_image }}</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">ID Expiration Date<span class="requireRed"> </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.government_id_expiration_date}}" name="government_id_expiration_date" placeholder="ID Expiration Date" class="form-control datefield" />
+							<span class="error-message help-inline">{{ errors.government_id_expiration_date }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Government Id Back Image<span class="requireRed"> </span></label>
+						<div class="mws-form-item">
+							<input type="file"  name="government_id_back_image" id="government_id_back_image" />
+							<input type="hidden"  name="gibi_img_orientation" id="gibi_img_orientation" />
+							{% if userImgs.government_id_back_image != "" %}
+							<a class="fancybox-buttons" data-fancybox-group="button" href="{{settings.MODEL_IMAGE_URL}}{{form.government_id_back_image}}">
+								<img height="100" width="100" src="{{settings.MODEL_IMAGE_URL}}{{form.government_id_back_image}}"/>
+							</a>
+							{% endif %}
+							<span class="error-message help-inline">{{ errors.government_id_back_image }}</span>
+						</div>
+					</div>
+				</div>
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">ACCOUNT VERIFICATION (Photo Verification)</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Take photo next to ID<span class="requireRed"> </span></label>
+						<div class="mws-form-item">
+							<input type="file" name="photo_next_to_id" id="photo_next_to_id" />
+							<input type="hidden" name="pnti_img_orientation" id="pnti_img_orientation" />
+							{% if userImgs.photo_next_to_id != "" %}
+							<a class="fancybox-buttons" data-fancybox-group="button" href="{{settings.MODEL_IMAGE_URL}}{{form.photo_next_to_id}}">
+								<img height="100" width="100" src="{{settings.MODEL_IMAGE_URL}}{{form.photo_next_to_id}}"/>
+							</a>
+							{% endif %}
+							<span class="error-message help-inline">{{ errors.photo_next_to_id }}</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mws-form-label">Take photo next to ID and dated paper<span class="requireRed"> </span></label>
+						<div class="mws-form-item">
+							<input type="file" name="photo_next_to_id_with_dated_paper" id="photo_next_to_id_with_dated_paper" />
+							<input type="hidden" name="pntidp_img_orientation" id="pntidp_img_orientation" />
+							{% if userImgs.photo_next_to_id_with_dated_paper != "" %}
+								<a class="fancybox-buttons" data-fancybox-group="button" href="{{settings.MODEL_IMAGE_URL}}{{form.photo_next_to_id_with_dated_paper}}}}">
+									<img height="100" width="100" src="{{settings.MODEL_IMAGE_URL}}{{form.photo_next_to_id_with_dated_paper}}"/>
+								</a>
+							{% endif %}
+							<span class="error-message help-inline">{{ errors.photo_next_to_id_with_dated_paper }}</span>
+						</div>
+					</div>
+				</div>
+				{% endfor%}
+				{% endif %}
+
+
+				{% if additionalLinks %}
+				<table class="table table-striped table-responsive" style="margin-top:10px;">
+					<thead>
+						<tr style="background-color:#3c3f44; color:white;">
+							<th colspan="2" style="font-size:14px;">Additional Links</th>
+						</tr>
+					</thead>
+				</table>
+				
+				
+					{% for additional in additionalLinks %}
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="mws-form-label">{{additional.name|title}}:</label> {{additional.link|check_none_value}}
+						</div>
+					</div>
+					{% endfor %}
+				
+						<div class="row">
+							<div class="col-md-12">
+								<a  class="btn btn-default" data-toggle="modal" data-target="#myModal{{userDetail.id}}">Add More Links</a>
+							</div>
+						</div>
+						<div class="modal fade" id="myModal{{userDetail.id}}" role="dialog">
+							
+							<div class="modal-dialog">
+							
+								<!-- Modal content-->
+								<form action="{% url 'users.edit_model' userDetail.id %}" method="POST">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+											<h4 class="modal-title">My Links</h4>
+										</div>
+										<div class="modal-body">
+											<input type="text" placeholder="Name" name="link_name" class="form-control"> </br>
+											<input type="text" placeholder="Link" name="link" class="form-control"> </br>
+											<span class="error-message help-inline">{{ errors.link }}</span>
+										</div>
+										<div class="modal-body">
+											<input type="submit" value="Save" />
+										</dfiv>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+										</div>
+									</div>
+								</form>
+								
+							</div>
+						</div>
+					
+				{% endif %}
+			
+			</div>
+			<div class="mws-button-row">
+				<div class="input" >
+					<input type="button" onclick="edit_model_form_submit()" value="Submit" class="btn btn-success">
+						<a href="{% url 'users.edit_model' userDetail.id %}" class="btn btn-primary"><i class=\"icon-refresh\"></i> Reset</a>
+						<a href="{% url 'users.models' %}" class="btn btn-info"><i class=\"icon-refresh\"></i> Cancel</a>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+<link rel="stylesheet" href="{%  static 'admin/css/jquery.fancybox.css' %}">
+<script src="{%  static 'admin/js/jquery.fancybox.js' %}"></script>
+<script>
+	function edit_model_form_submit(){
+		$('#loader_img').show();
+		$('.help-inline').html('');
+		$('.help-inline').removeClass('error'); 
+		$.ajax({
+			url: '{% url "users.edit_model_valiation" %}',
+			data : new FormData($('#edit_model_form')[0]),
+			processData: false,
+			contentType: false,
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			},
+			type:'post',
+			success: function (r) {
+				error_array 	= 	JSON.stringify(r);
+				var data		=	JSON.parse(error_array);
+				if(data['is_required_validation'] == "1") {
+					$.each(data['errors'],function(index,html){
+						if(index == "categories"){
+							$(".categoryerromsg").addClass('error');
+							$(".categoryerromsg").html(html); 
+						}else{
+							$("input[name = "+index+"]").next().addClass('error');
+							$("input[name = "+index+"]").next().html(html); 
+							$("textarea[name = "+index+"]").next().addClass('error');
+							$("textarea[name = "+index+"]").next().html(html); 
+							$("select[name = "+index+"]").next().addClass('error');
+							$("select[name = "+index+"]").next().html(html);
+						} 
+					});
+					$('#loader_img').hide();
+				}else {
+					$('#edit_model_form').submit();
+				}
+			}
+		});
+		
+	}
+	
+	$(function(){
+		$('.fancybox').fancybox();
+		$('.fancybox-buttons').fancybox({
+			openEffect  : 'none',
+			closeEffect : 'none',
+			prevEffect : 'none',
+			nextEffect : 'none',
+		});
+	});
+
+	$('.date-of-birth').datetimepicker({
+		format:'YYYY-MM-DD',
+		maxDate : 'now'
+	});
+		
+	$('.from_date').datetimepicker({
+		format:'YYYY-MM-DD'
+	});
+		
+	$('.selectOption').multiselect({ 
+		numberDisplayed: 2,
+		includeSelectAllOption: true,
+		enableFiltering:true ,
+		nonSelectedText: 'Select Category',
+		enableCaseInsensitiveFiltering: true, 
+	});
+	
+	$('.datefield').datetimepicker({
+		format:'YYYY-MM-DD',
+		minDate : new Date(),
+	});
+	
+	function enableDisablePlans(sstype="",value=0){
+		if(value == 1){
+			$('.subscription_details_'+sstype).show();
+		}else{
+			$('.subscription_details_'+sstype).hide();
+		}
+	}
+	function add_more_paln(sub_type=""){
+		var section_id  =   $('.subscription_details_'+sub_type).children('div .subscription_row').last().attr('id');
+		section_id 		=  	section_id.replace("subscription_row_"+sub_type+"_",'');
+		var new_section_id = parseInt(section_id)+parseInt(1);
+		if(sub_type !="" ){
+			$.ajax({
+				url: '{% url "add_subscription_field" %}',
+				data: { 'sub_type': sub_type,'section':new_section_id},
+				dataType: 'html',
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				},
+				success: function (r) {
+					if (r) {
+						$('.main_subscription_'+sub_type).append(r);
+						$("#addmoreCount_"+sub_type).val(new_section_id);
+						$('.datefield').datetimepicker({
+							format:'YYYY-MM-DD'
+						});	
+					}else{
+						alert('There is an error. Please try again letter.')  
+					}
+				}
+			});
+		}
+	}
+	
+	
+	function changeOfferType(sub_type,index){
+		var value = $('.plan_type_'+sub_type+'_'+index).val();
+		if(value == 'one_time'){
+			$('.recurring_options_'+sub_type+'_'+index).hide();
+		}else{
+			$('.recurring_options_'+sub_type+'_'+index).show();
+		}
+	}
+	function enableDisableDiscount(sub_type,index){
+		if($('.is_discount_enabled_'+sub_type+'_'+index).prop("checked") == true){
+			$('.discount_amount_'+sub_type+'_'+index).show();
+        }else if($('.is_discount_enabled_'+sub_type+'_'+index).prop("checked") == false){
+			$('.discount_amount_'+sub_type+'_'+index).hide();
+        }
+	}
+	function enableDisablePermanentDiscount(sub_type,index){
+		if($('.permanent_dis_'+sub_type+'_'+index).prop("checked") == true){
+			$('.date_range_'+sub_type+'_'+index).hide();
+        }else if($('.permanent_dis_'+sub_type+'_'+index).prop("checked") == false){
+			$('.date_range_'+sub_type+'_'+index).show();
+        }
+	}
+	$(document).on('click','.remove',function(){
+		$(this).parent().parent('.subscription_row').remove();
+		
+	});
+
+
+	var img_orientationExif_gifi = 0;
+	$(document).on("change", "#government_id_front_image", function () {
+	var image_url	=	$('#government_id_front_image')[0].files[0];
+	EXIF.getData(image_url, function() {
+		$('#img_orientation').val(EXIF.getTag(this, "Orientation"));
+		img_orientationExif_gifi = EXIF.getTag(this, "Orientation");
+		if(img_orientationExif_gifi == undefined){
+			img_orientationExif_gifi = 0;
+			$('#img_orientation').val(img_orientationExif_gifi);
+		}
+	});
+	});
+
+	var img_orientationExif_gibi = 0;
+	$(document).on("change", "#government_id_back_image", function () {
+	var image_url	=	$('#government_id_back_image')[0].files[0];
+	EXIF.getData(image_url, function() {
+		$('#gibi_img_orientation').val(EXIF.getTag(this, "Orientation"));
+		img_orientationExif_gibi = EXIF.getTag(this, "Orientation");
+		if(img_orientationExif_gibi == undefined){
+			img_orientationExif_gibi = 0;
+			$('#gibi_img_orientation').val(img_orientationExif_gibi);
+		}
+	});
+	});
+
+	var img_orientationExif_pnti = 0;
+	$(document).on("change", "#photo_next_to_id", function () {
+	var image_url	=	$('#photo_next_to_id')[0].files[0];
+	EXIF.getData(image_url, function() {
+		$('#pnti_img_orientation').val(EXIF.getTag(this, "Orientation"));
+		img_orientationExif_pnti = EXIF.getTag(this, "Orientation");
+		if(img_orientationExif_pnti == undefined){
+			img_orientationExif_pnti = 0;
+			$('#pnti_img_orientation').val(img_orientationExif_pnti);
+		}
+	});
+	});
+
+	var img_orientationExif_pntidp = 0;
+	$(document).on("change", "#photo_next_to_id_with_dated_paper", function () {
+	var image_url	=	$('#photo_next_to_id_with_dated_paper')[0].files[0];
+	EXIF.getData(image_url, function() {
+		$('#pntidp_img_orientation').val(EXIF.getTag(this, "Orientation"));
+		img_orientationExif_pntidp = EXIF.getTag(this, "Orientation");
+		if(img_orientationExif_pntidp == undefined){
+			img_orientationExif_pntidp = 0;
+			$('#pntidp_img_orientation').val(img_orientationExif_pntidp);
+		}
+	});
+	});
+
+	// var img_orientationExif_ftimg = 0;
+	// $(document).on("change", "#featured_image", function () {
+	// var image_url	=	$('#featured_image')[0].files[0];
+	// EXIF.getData(image_url, function() {
+	// 	$('#ftimg_img_orientation').val(EXIF.getTag(this, "Orientation"));
+	// 	img_orientationExif_ftimg = EXIF.getTag(this, "Orientation");
+	// 	if(img_orientationExif_ftimg == undefined){
+	// 		img_orientationExif_ftimg = 0;
+	// 		$('#ftimg_img_orientation').val(img_orientationExif_ftimg);
+	// 	}
+	// });
+	// });
+
+
+
+	var demo = function(id) {
+		this.or = id;
+	};
+
+	demo.prototype.toJSON = function() {
+		return this.or;
+	};
+
+	//var img_orientationExif_images = 0;
+	$(document).on("change", "#images", function () {
+		var orientations = [];
+		$('.oriantations').html('');
+		
+		var img_orientationExif_images = 0;
+		for(i=0;i < this.files.length;i++){
+			var image_url	=	$('#images')[0].files[i];
+			var img_orientationExif_images =  get_oriantation(image_url);
+			EXIF.getData(image_url, function() {				
+				var img_orientationExif_images = EXIF.getTag(this, "Orientation");
+				if(img_orientationExif_images == undefined){
+					var img_orientationExif_images = 0;
+				}
+				orientations.push(img_orientationExif_images)
+				
+			});
+		}
+		
+		$.each( orientations, function( key, value ) {
+			console.log(orientations);
+		
+			  alert( key + ": " + value );
+		});
+		
+		
+		//var Hidden = '<input type="hidden" name="oriantation_'+i+'" value="'+imgOriantation+'">';
+				//$('.oriantations').append(Hidden)
+		
+		// console.log($('#multi_orientation').val(orientations))
+	});
+	
+	function get_oriantation(image_url){
+		img_orientationExif_images = 0;
+		
+		//return img_orientationExif_images;
+	}
+	
+	
+</script>
+<div id="loader_img"><center><img src="{% static 'admin/img/loader32222.gif' %}" /></center></div>
+<style>
+	#loader_img{
+		background-color: #000  !important;
+		height:100%  !important;
+		top:0  !important;
+		left:0  !important;
+		position: fixed  !important;
+		width: 100%  !important;
+		z-index: 5000000  !important;
+		opacity:0.5  !important;
+		display:none ;
+		 padding-top: 18%;
+	}
+</style>
+{% endblock %}

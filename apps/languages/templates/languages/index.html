@@ -1,0 +1,131 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Languages
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li class="active">Languages</li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="row">
+			<form autocomplete="off" action="{% url 'languages.index' %}">
+				<div class="col-md-3 col-sm-3">
+					<div class="form-group">
+					<input type="text" value="{{searchingVariables.title}}" name="title" class="form-control" placeholder=" Language Name" />
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<button class="btn btn-primary" style="margin:0;"><i class='fa fa-search '></i> Search</button>
+					<a href="{% url 'languages.index' %}"  class="btn btn-primary" style="margin:0;"><i class='fa fa-refresh '></i> Reset</a>
+				</div>
+				<div class="col-md-6 col-sm-6">
+					<div class="form-group  pull-right">
+						<a href="{% url 'languages.add' %}" class="btn btn-success btn-small align" style="margin:0;">Add New Language</a>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="box">
+			<div class="box-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th width="18%">
+								<a href="?page={{ page }}&order_by=title&direction={% if direction == 'ASC' and order_by == 'title' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Language Name</a>
+							</th>
+
+							<th width="18%">
+								<a href="?page={{ page }}&order_by=lang_code&direction={% if direction == 'ASC' and order_by == 'lang_code' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Language Code</a>
+							</th>
+
+							<th width="18%">
+								<a href="?page={{ page }}&order_by=folder_code&direction={% if direction == 'ASC' and order_by == 'folder_code' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Folder Code</a>
+							</th>
+
+							<th width="18%">
+								<a href="?page={{ page }}&order_by=is_active&direction={% if direction == 'ASC' and order_by == 'is_active' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Status</a>
+							</th>
+
+							<th width="18%">
+								<a href="?page={{ page }}&order_by=created_at&direction={% if direction == 'ASC' and order_by == 'created_at' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Added On</a>
+							</th>
+							<th>
+								Action
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% if results %}
+							{% for result in results %}
+								<tr>
+									<td>
+										{{result.title}}
+									</td>
+
+									<td>
+										{{result.lang_code}}
+									</td>
+									
+									<td>
+										{{result.folder_code}}
+									</td>
+
+									<td>
+										{% if result.is_active == 1 %}
+											<span class="label label-success" >Active</span>
+										{% else %}
+											<span class="label label-danger" >Deactive</span>
+										{% endif %}
+									</td>
+
+									<td>
+										{{result.created_at|date:"M d Y h:i a"}}
+									</td>
+
+									<td>
+										{% if result.is_active == 1 %}
+											<a  title="Click To Deactivate" href="{% url 'languages.status' result.id 0 %}" class="btn btn-danger btn-small status_change" ><span class="fa fa-ban"></span></a>
+										{% else %}
+											<a  title="Click To Active" href="{% url 'languages.status' result.id  1 %}" class="btn btn-success btn-small status_change"><span class="fa fa-check"></span></a>
+										{% endif %}
+
+										<a  title="Edit" href="{% url 'languages.edit' result.id %}" class="btn btn-success btn-small"><span class="fa fa-pencil"></span></a>
+									</td>
+								</tr>
+							{% endfor %}
+						{% else %}
+							<tr>
+								<td colspan="5" style="text-align:center">Record not found.</td>
+							</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+			{% include "admin/paginations.html" %}
+		</div>
+	</section>
+</div>
+
+<script>
+	$(document).ready(function(){
+		$(document).on('click', '.status_change', function(e){
+			e.stopImmediatePropagation();
+			url = $(this).attr('href');
+			bootbox.confirm("Are you sure want to change status?",
+			function(result){
+				if(result){
+					window.location.replace(url);
+				}
+			});
+			e.preventDefault();
+		});
+	});
+</script>
+{% endblock %}
+

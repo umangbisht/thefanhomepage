@@ -1,0 +1,90 @@
+
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Email Templates
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li class="active">Email Templates</li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="row">
+			<form autocomplete="off" action="{% url 'emailtemplates.index' %}">
+				<div class="col-md-3 col-sm-3">
+					<div class="form-group">
+					<input type="text" value="{{searchingVariables.name}}" name="name" class="form-control" placeholder=" Template Name" />
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<div class="form-group">
+					<input type="text" value="{{searchingVariables.subject}}" name="subject" class="form-control" placeholder="Template Subject" />
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<button class="btn btn-primary" style="margin:0;"><i class='fa fa-search '></i> Search</button>
+					<a href="{% url 'emailtemplates.index' %}"  class="btn btn-primary" style="margin:0;"><i class='fa fa-refresh '></i> Reset</a>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<div class="form-group pull-right">
+						<!--<a href="{% url 'emailtemplates.add' %}" class="btn btn-success btn-small align" style="margin:0;">Add Email Template</a>-->
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="box">
+			<div class="box-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th width="12%">
+								<a href="?page={{ page }}&order_by=name&direction={% if direction == 'ASC' and order_by == 'name' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Name</a>
+							</th>
+							<th width="12%">
+								<a href="?page={{ page }}&order_by=subject&direction={% if direction == 'ASC' and order_by == 'subject' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Subject</a>
+							</th>
+							
+							<th width="12%">
+								<a href="?page={{ page }}&order_by=created_at&direction={% if direction == 'ASC' and order_by == 'created_at' %}DESC{% else %}ASC{% endif %}{% if querySring != '' %}&{{querySring}}{% endif %}">Created</a>
+							</th>
+							
+							<th width="15%">
+								Action
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% if results %}
+							{% for result in results %}
+								<tr>
+									<td>
+										{{result.name}}
+									</td>
+									<td>
+										{{result.subject}}
+									</td>
+									<td>
+										{{result.created_at|date:datetimeFormat}}
+									</td>
+									<td>
+										<a class="btn btn-success"  title="Edit"  href="{% url 'emailtemplates.edit'  result.id %}"><span class="fa fa-pencil"></span></a>
+									</td>
+							{% endfor %}
+						{% else %}
+							<tr>
+								<td colspan="6" style="text-align:center">Record not found.</td>
+							</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+			{% include "admin/paginations.html" %}
+		</div>
+	</section>
+	</div>
+{% endblock %}
+

@@ -1,0 +1,100 @@
+{% extends "admin/default.html" %}
+{% block content %}
+{% load static %}
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>
+			Add New Block
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="{% url 'dashboard.index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="{% url 'blocks.index'  %}">Blocks</a></li>
+			<li class="active">Add New Block</li>
+		</ol>
+	</section>
+	<section class="content"> 
+		<form method="POST" autocomplete="off" action="{% url 'blocks.add' %}" enctype="multipart/form-data">	
+			{% csrf_token %}
+			<div class="row pad">
+				<div class="col-md-6">	
+					<div class="form-group">
+						<label class="mws-form-label">Page Name<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.page_name}}" name="page_name" placeholder="Page Name" class="form-control" />
+							<span class="error-message help-inline">{{ errors.page_name }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Block Image<span class="requireRed">  </span></label>
+						<div class="mws-form-item">
+							<input type="file"  name="attachment" placeholder="Order" class="" />
+							<span class="error-message help-inline">{{ errors.attachment }}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="mws-form-label">Order Number<span class="requireRed"> * </span></label>
+						<div class="mws-form-item">
+							<input type="text" value="{{form.block_order}}" name="block_order" placeholder="Order" class="form-control" />
+							<span class="error-message help-inline">{{ errors.block_order }}</span>
+						</div>
+					</div>
+				</div>
+			</div> 
+			{% if languages %}
+				<div class="wizard-nav wizard-nav-horizontal">
+					<ul class="nav nav-tabs">
+						{% for language in languages %}
+							<li class="{% if language.lang_code == 'en' %}active{% endif %}">
+								<a data-toggle="tab" href="#{{language.lang_code}}div">
+									{{language.title}}
+								</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+			<div class="mws-panel-body no-padding tab-content"> 
+				{% for language in languages %}
+					<div id="{{language.lang_code}}div" class="tab-pane {% if language.lang_code == 'en' %}active{% endif %}">
+						<div class="row pad">
+							<div class="col-md-6">	
+								<div class="form-group">
+									<label class="mws-form-label">Block Name<span class="requireRed"> {% if language.lang_code == 'en' %}*{% endif %} </span></label>
+									<div class="mws-form-item">
+										<input type="text" value="{{form.block_name}}" name="data[{{language.lang_code}}][block_name]" placeholder="Block Name" class="form-control" />
+										<span class="error-message help-inline">{% if language.lang_code == 'en' %}{{ errors.block_name }}{% endif %}</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="mws-form-label">Description<span class="requireRed"> {% if language.lang_code == 'en' %}*{% endif %} </span></label>
+									<div class="mws-form-item">
+										<textarea class="form-control" id="description_{{language.lang_code}}"  name="data[{{language.lang_code}}][description]">{{form.description}}</textarea>
+										<span class="error-message help-inline">{% if language.lang_code == 'en' %}{{ errors.description }}{% endif %}</span>
+									</div>
+									<script>		
+										CKEDITOR.replace("description_{{language.lang_code}}",
+										{
+										height: 300,
+										filebrowserImageWindowWidth : '640',
+										filebrowserImageWindowHeight : '480',
+										extraAllowedContent: 'a span',
+										enterMode : CKEDITOR.ENTER_BR
+										});
+									</script>
+								</div>
+							</div>
+						</div> 
+					</div>
+				{% endfor %}
+			</div>
+			<div class="mws-button-row">
+				<div class="input" >
+					<input type="submit" value="Submit" class="btn btn-success">
+					<a href="" class="btn btn-primary"><i class=\"icon-refresh\"></i> Reset</a>
+					<a href="{% url 'blocks.index' %}" class="btn btn-info"><i class=\"icon-refresh\"></i> Cancel</a>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+{% endblock %}
